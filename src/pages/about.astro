@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="About" description="Background, education, and what I'm working on.">
+  <div class="wrap">
+    <section class="intro prose">
+      <h1>About</h1>
+      <p>
+        I'm Siva Balan Saravanan, a software engineer from India, now in New York for my
+        master's at NYU Courant.
+      </p>
+      <p>
+        Most of my industry work has been backend engineering on lending software: Node.js
+        services, MongoDB performance, caching, event-driven systems, and the production support
+        that comes with real clients. At NYU I've been going deeper into how AI systems work
+        underneath, from training small language models to writing attention kernels for H100s,
+        and building applications on top of LLMs.
+      </p>
+      <p>
+        I'm looking for full-time roles starting after May 2027 in software engineering,
+        applied AI, and forward deployed engineering.
+      </p>
+
+      <h2>Education</h2>
+      <p>
+        <strong>MS in Computer Science</strong>, NYU Courant, Sep 2025 – May 2027. GPA 3.67.<br />
+        <span class="muted">Coursework: Building LLM Reasoners, GPU Programming and Architecture, Machine Learning, Realtime Big Data Analytics, Big Data Application Development, Technologies for Finance, Fundamental Algorithms, Operating Systems, Programming Languages.</span>
+      </p>
+      <p>
+        <strong>B.Tech in Computer Science and Engineering</strong>, Amrita School of Engineering, 2018 – 2022. GPA 8.6/10.
+      </p>
+
+      <h2>Competitive programming</h2>
+      <p>
+        I represented NYU at the ICPC North America Greater New York Regional in October 2025.
+        I'm rated 4 stars on CodeChef (max 1801) and practice regularly on Codeforces and LeetCode.
+      </p>
+
+      <h2>Papers I've read</h2>
+      <p>I read systems papers to understand the designs behind the tools I use. A few of them:</p>
+      <ul>
+        <li>MapReduce</li>
+        <li>HDFS</li>
+        <li>Bigtable</li>
+        <li>ZooKeeper</li>
+        <li>Kafka</li>
+        <li>Spark (resilient distributed datasets)</li>
+        <li>Apache Flink</li>
+      </ul>
+
+      <h2>Contact</h2>
+      <p>
+        The best way to reach me is email at <a href={`mailto:${site.email}`}>{site.email}</a>.
+        I'm also on <a href={site.linkedin}>LinkedIn</a> and <a href={site.github}>GitHub</a>.
+      </p>
+    </section>
+  </div>
+</Base>

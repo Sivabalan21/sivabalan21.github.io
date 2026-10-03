@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectList from '../../components/ProjectList.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Projects" description="Case studies on applied AI, recommendation systems, and GPU kernels.">
+  <div class="wrap">
+    <section class="intro">
+      <h1>Projects</h1>
+      <p>Each project has a write-up covering the problem, what I built, and the results.</p>
+    </section>
+    <section>
+      <ProjectList projects={projects} />
+    </section>
+  </div>
+</Base>

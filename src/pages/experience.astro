@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Experience" description="Three years of backend engineering on lending software at Ezee.ai.">
+  <div class="wrap">
+    <section class="intro">
+      <h1>Experience</h1>
+      <p>
+        Three years at Ezee.ai, a lending software company serving banks and financial
+        institutions in India. I started as an intern and grew into owning platforms, leading
+        feature design, and working directly with client teams.
+      </p>
+    </section>
+
+    <section aria-label="Ezee.ai">
+      <div class="role">
+        <div class="when">Jun 2022 – Jul 2025</div>
+        <div>
+          <h3>Member of technical staff, Ezee.ai</h3>
+          <p class="muted">Chennai, India. Node.js, Express, MongoDB, Redis, Kafka, RabbitMQ, GraphQL, AWS</p>
+          <ul>
+            <li>Owned the performance management platform end to end: 18 REST APIs and 2 batch pipelines scoring debt-collection performance for about 100 financial institutions across 10M+ loan accounts.</li>
+            <li>Re-architected a critical batch pipeline, cutting its runtime 9x (180 to 20 minutes) through MongoDB aggregation tuning, compound indexes, Redis caching, field projection, and bulk writes. The bottleneck had been open for over two years.</li>
+            <li>Designed 3 reusable platform services used across the product: access management modeled on IAM (about 50 APIs, JWT and RBAC), multi-channel notifications (email, SMS, WhatsApp, push), and multi-level approval workflows driven by configurable business rules.</li>
+            <li>Led technical design for enterprise features, worked directly with financial institution clients to turn requirements into system designs, reviewed PRs, mentored junior engineers, and ran production releases.</li>
+            <li>Resolved 30+ production incidents. When a live MongoDB collection was accidentally deleted, I reconstructed the data from logs and dependent collections within 10 hours to restore the client, then wrote the backup and recovery standard the company adopted.</li>
+            <li>Won the internal AI hackathon (May 2025) with an LLM-powered lending workflow generator built on RAG.</li>
+            <li>Received the Innovation Instigator Award (2025) for architectural design, feature ownership, and performance work.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="role" id="intern">
+        <div class="when">Feb – May 2022</div>
+        <div>
+          <h3>Backend development intern, Ezee.ai</h3>
+          <p class="muted">Chennai, India</p>
+          <ul>
+            <li>Built a reusable backend component library and a generic API versioning framework that later features were built on, cutting development effort by 50%.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>

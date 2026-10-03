@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import Trace from '../components/Trace.astro';
+import ProjectList from '../components/ProjectList.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<Base>
+  <div class="wrap">
+    <section class="intro">
+      <h1>Software engineer working on backend systems and applied AI.</h1>
+      <p>
+        I'm Siva. I spent three years at Ezee.ai building backend systems for lenders: APIs,
+        batch pipelines, and platform services used by about 100 financial institutions. I'm now
+        in the second year of the MS CS program at NYU Courant, working on LLM applications and
+        GPU systems.
+      </p>
+      <p>
+        I graduate in May 2027 and I'm looking for full-time roles in software engineering,
+        applied AI, and forward deployed engineering.
+      </p>
+      <div class="links">
+        <a href={`mailto:${site.email}`}>Email me</a>
+        <a href={site.resume}>Resume (PDF)</a>
+        <a href={site.github}>GitHub</a>
+        <a href={site.linkedin}>LinkedIn</a>
+      </div>
+      <Trace />
+    </section>
+
+    <section aria-labelledby="work-heading">
+      <div class="section-head">
+        <h2 id="work-heading">Projects</h2>
+      </div>
+      <ProjectList projects={projects} />
+    </section>
+
+    <section aria-labelledby="exp-heading">
+      <div class="section-head">
+        <h2 id="exp-heading">Experience</h2>
+        <a href="/experience">Full experience</a>
+      </div>
+      <div class="role">
+        <div class="when">Jun 2022 – Jul 2025</div>
+        <div>
+          <h3>Member of technical staff, Ezee.ai</h3>
+          <p class="muted">Lending software, Chennai</p>
+          <ul>
+            <li>Owned the performance management platform end to end: 18 REST APIs and 2 batch pipelines scoring debt collection for about 100 financial institutions across 10M+ loan accounts.</li>
+            <li>Cut a critical batch pipeline from 180 to 20 minutes by reworking MongoDB aggregations and indexes, adding Redis caching, and switching to bulk writes.</li>
+            <li>Designed shared platform services for access management, notifications, and approval workflows, used across the product.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>

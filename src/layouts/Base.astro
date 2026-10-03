@@ -1,0 +1,97 @@
+---
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} | ${site.shortName}` : `${site.name}, software engineer`;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
+const nav = [
+  { href: '/projects', label: 'Projects' },
+  { href: '/experience', label: 'Experience' },
+  ...(posts.length ? [{ href: '/writing', label: 'Writing' }] : []),
+  { href: '/about', label: 'About' },
+];
+const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;700&display=swap"
+    />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">{site.name}</a>
+        <nav class="nav" aria-label="Main">
+          {nav.map((n) => (
+            <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>
+          ))}
+          <a href={site.resume}>Resume</a>
+          <button class="theme-toggle" type="button" aria-label="Switch color theme">Theme</button>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>{site.name}, New York</span>
+        <nav aria-label="Contact">
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={site.github}>GitHub</a>
+          <a href={site.linkedin}>LinkedIn</a>
+          <a href={site.resume}>Resume</a>
+        </nav>
+      </div>
+    </footer>
+    <script is:inline>
+      (function () {
+        const btn = document.querySelector('.theme-toggle');
+        if (!btn) return;
+        const root = document.documentElement;
+        const current = () =>
+          root.dataset.theme ||
+          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const label = () => (btn.textContent = current() === 'dark' ? 'Light mode' : 'Dark mode');
+        label();
+        btn.addEventListener('click', () => {
+          const next = current() === 'dark' ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try { localStorage.setItem('theme', next); } catch (e) {}
+          label();
+        });
+      })();
+    </script>
+  </body>
+</html>
