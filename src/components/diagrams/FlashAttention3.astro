@@ -1,0 +1,22 @@
+---
+import Flow from '../Flow.astro';
+import WarpPipeline from './WarpPipeline.astro';
+---
+<figure class="figure">
+  <div class="diagram">
+    <Flow
+      label="How a tile moves on H100"
+      stages={[
+        { title: 'Global memory (HBM)', items: ['Q, K, V tensors'] },
+        { title: 'TMA', items: ['async bulk tile copy', 'no per-thread address math'] },
+        { title: 'Shared memory', items: ['multi-stage tile buffer'] },
+        { title: 'WGMMA', items: ['warpgroup MMA on tensor cores', 'operands read from shared memory'] },
+      ]}
+    />
+  </div>
+  <figcaption class="note">The Hopper data path that FlashAttention-3 is built around. Each of my kernels turned one of these features on or off.</figcaption>
+</figure>
+<figure class="figure">
+  <div class="diagram"><WarpPipeline /></div>
+  <figcaption class="note">Warp specialization: while consumer warpgroups compute on one K/V tile, the producer warp is already loading the next. Illustrative, not to scale.</figcaption>
+</figure>

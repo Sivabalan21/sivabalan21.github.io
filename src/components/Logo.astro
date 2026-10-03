@@ -1,0 +1,12 @@
+---
+// Renders /public/logos/<name>.(svg|png|webp) if the file exists.
+// Nothing renders until you add the file, so the layout never shows a broken image.
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props { name: string; alt: string }
+const { name, alt } = Astro.props;
+const exts = ['svg', 'png', 'webp'];
+const found = exts.find((e) => fs.existsSync(path.join(process.cwd(), 'public', 'logos', `${name}.${e}`)));
+---
+{found && <img src={`/logos/${name}.${found}`} alt={alt} width="28" height="28" loading="lazy" decoding="async" />}

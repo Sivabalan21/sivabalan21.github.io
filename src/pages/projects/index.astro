@@ -7,14 +7,15 @@ const projects = (await getCollection('projects'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Projects" description="Case studies on applied AI, recommendation systems, and GPU kernels.">
+<Base title="Projects" description="Case studies: an AI clinical platform, a distributed recommendation system, FlashAttention-3 kernels on H100, and LLM reasoning from scratch.">
   <div class="wrap">
-    <section class="intro">
+    <header class="page-head">
       <h1>Projects</h1>
-      <p>Each project has a write-up covering the problem, what I built, and the results.</p>
-    </section>
-    <section>
-      <ProjectList projects={projects} />
+      <p class="lede">Write-ups of what I built, how it works, and what came out of it.</p>
+    </header>
+    <section class="section" aria-label="All projects">
+      <div class="section-label"><p class="note">{projects.length} projects, 2026.</p></div>
+      <div class="section-body"><ProjectList projects={projects} /></div>
     </section>
   </div>
 </Base>

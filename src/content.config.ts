@@ -5,7 +5,6 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
-    // Short name used on the career trace
     short: z.string(),
     summary: z.string(),
     context: z.string(),
@@ -29,6 +28,7 @@ const writing = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
+    category: z.enum(['Systems', 'AI and LLMs', 'GPU', 'Backend', 'Finance and market infrastructure']),
     draft: z.boolean().default(false),
   }),
 });

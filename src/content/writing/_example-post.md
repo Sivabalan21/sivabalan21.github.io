@@ -2,6 +2,7 @@
 title: Example post
 description: Delete this file or replace it. Files starting with _ are ignored.
 date: 2026-10-01
+category: GPU
 draft: true
 ---
 

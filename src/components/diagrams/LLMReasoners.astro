@@ -1,0 +1,26 @@
+---
+import Flow from '../Flow.astro';
+---
+<figure class="figure">
+  <div class="diagram">
+    <Flow
+      label="Part 1: a language model from scratch"
+      stages={[
+        { title: 'Tokenizer', items: ['byte-pair encoding'] },
+        { title: 'Model', items: ['Transformer', 'RoPE, SwiGLU'] },
+        { title: 'Training', items: ['AdamW, cosine schedule', 'TinyStories'] },
+        { title: 'Result', items: ['≤1.45 val cross-entropy'] },
+      ]}
+    />
+    <Flow
+      label="Part 2: kernels and reasoning fine-tuning"
+      stages={[
+        { title: 'Attention kernel', items: ['FlashAttention-2 in Triton', 'forward + backward, BF16'] },
+        { title: 'SFT', items: ['Qwen2.5-Math-1.5B'] },
+        { title: 'GRPO', items: ['group-relative RL'] },
+        { title: 'Result', items: ['≥30% on Countdown'] },
+      ]}
+    />
+  </div>
+  <figcaption class="note">The two halves of the project. Training ran on A100 and RTX 4090 GPUs through Slurm.</figcaption>
+</figure>

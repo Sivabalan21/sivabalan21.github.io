@@ -1,0 +1,47 @@
+---
+// Illustrative schedule for a warp-specialized attention kernel.
+const steps = 5;
+const producer = ['Load K/V 1', 'Load K/V 2', 'Load K/V 3', 'Load K/V 4', ''];
+const consumer = ['', 'Compute 1', 'Compute 2', 'Compute 3', 'Compute 4'];
+---
+<div class="pipe" role="img" aria-label="Producer warp loads tile n+1 with TMA while consumer warpgroups compute tile n with WGMMA and softmax.">
+  <div class="lane-head">
+    <span class="lane-name">Producer warp</span>
+    <span class="lane-sub mono">TMA loads into shared memory</span>
+  </div>
+  <div class="cells" style={`--steps:${steps}`}>
+    {producer.map((c) => <span class={c ? 'cell load' : 'cell idle'}>{c}</span>)}
+  </div>
+  <div class="lane-head">
+    <span class="lane-name">Consumer warpgroups</span>
+    <span class="lane-sub mono">WGMMA + online softmax</span>
+  </div>
+  <div class="cells" style={`--steps:${steps}`}>
+    {consumer.map((c) => <span class={c ? 'cell compute' : 'cell idle'}>{c}</span>)}
+  </div>
+  <div></div>
+  <div class="axis mono" aria-hidden="true"><span>time</span><span class="axis-line"></span></div>
+</div>
+
+<style>
+  .pipe { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 0.75rem 1.5rem; align-items: center; }
+  .lane-name { display: block; font-weight: 500; font-size: 0.9375rem; }
+  .lane-sub { display: block; color: var(--muted); font-size: 0.75rem; }
+  .cells { display: grid; grid-template-columns: repeat(var(--steps), minmax(0, 1fr)); gap: 0.375rem; }
+  .cell {
+    font-family: var(--mono); font-size: 0.75rem; line-height: 1.2;
+    padding: 0.7rem 0.5rem; border-radius: 4px; text-align: center; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .load { background: var(--bg); border: 1px solid var(--accent); color: var(--accent); }
+  .compute { background: var(--accent); color: var(--bg); }
+  .idle { border: 1px dashed var(--rule); }
+  .axis { display: flex; align-items: center; gap: 0.5rem; color: var(--faint); font-size: 0.75rem; }
+  .axis-line { flex: 1; height: 1px; background: var(--rule); position: relative; }
+  .axis-line::after { content: ''; position: absolute; right: 0; top: -3px; border: 3.5px solid transparent; border-left: 6px solid var(--rule); border-right: 0; }
+  @media (max-width: 46rem) {
+    .pipe { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
+    .lane-head { margin-top: 0.5rem; }
+    .cell { white-space: normal; padding: 0.55rem 0.25rem; font-size: 0.6875rem; }
+  }
+</style>

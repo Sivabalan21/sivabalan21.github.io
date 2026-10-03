@@ -1,59 +1,96 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site } from '../data/site';
+
+const papers = [
+  { name: 'MapReduce', what: 'Batch processing as map and reduce functions, with the framework handling distribution and failures.' },
+  { name: 'HDFS', what: 'A distributed file system built for large files, streaming reads, and commodity hardware.' },
+  { name: 'Bigtable', what: 'A sparse, sorted, distributed map: the design behind many wide-column stores.' },
+  { name: 'ZooKeeper', what: 'A coordination service for configuration, leader election, and locks in distributed systems.' },
+  { name: 'Kafka', what: 'A distributed log for high-throughput messaging and stream processing.' },
+  { name: 'Spark', what: 'Resilient distributed datasets: in-memory cluster computing with lineage-based fault tolerance.' },
+  { name: 'Apache Flink', what: 'Stateful stream processing with consistent checkpoints.' },
+];
 ---
-<Base title="About" description="Background, education, and what I'm working on.">
+<Base title="About" description="About Siva Balan: software engineer and NYU MS Computer Science student working on backend systems, AI infrastructure, and GPU programming.">
   <div class="wrap">
-    <section class="intro prose">
+    <header class="page-head">
       <h1>About</h1>
-      <p>
-        I'm Siva Balan Saravanan, a software engineer from India, now in New York for my
-        master's at NYU Courant.
-      </p>
-      <p>
-        Most of my industry work has been backend engineering on lending software: Node.js
-        services, MongoDB performance, caching, event-driven systems, and the production support
-        that comes with real clients. At NYU I've been going deeper into how AI systems work
-        underneath, from training small language models to writing attention kernels for H100s,
-        and building applications on top of LLMs.
-      </p>
-      <p>
-        I'm looking for full-time roles starting after May 2027 in software engineering,
-        applied AI, and forward deployed engineering.
-      </p>
+    </header>
 
-      <h2>Education</h2>
-      <p>
-        <strong>MS in Computer Science</strong>, NYU Courant, Sep 2025 – May 2027. GPA 3.67.<br />
-        <span class="muted">Coursework: Building LLM Reasoners, GPU Programming and Architecture, Machine Learning, Realtime Big Data Analytics, Big Data Application Development, Technologies for Finance, Fundamental Algorithms, Operating Systems, Programming Languages.</span>
-      </p>
-      <p>
-        <strong>B.Tech in Computer Science and Engineering</strong>, Amrita School of Engineering, 2018 – 2022. GPA 8.6/10.
-      </p>
+    <section class="section" aria-label="Introduction">
+      <div class="section-label">
+        <p class="note">From India, now in New York.</p>
+      </div>
+      <div class="section-body about-text">
+        <p>
+          I started programming in 8th grade because I enjoyed solving problems. What kept me
+          interested wasn't just getting the answer, but understanding why a particular algorithm
+          worked and how it solved the problem efficiently. That curiosity took me from competitive
+          programming and CS fundamentals to building production systems at Ezee.ai, where
+          algorithms, databases, distributed systems, and performance became real engineering
+          problems.
+        </p>
+        <p>
+          At NYU, I've been going deeper into algorithms, distributed systems, machine learning,
+          LLMs, and GPU programming. Now I'm looking for work where I can keep solving difficult
+          problems, learn from experienced engineers, and build systems that are useful to real
+          people.
+        </p>
+        <a class="story-link" href="/about/story">
+          <span class="story-title">My story <span class="arrow" aria-hidden="true">→</span></span>
+          <span class="story-sub">The longer version, from 8th grade to NYU.</span>
+        </a>
+      </div>
+    </section>
 
-      <h2>Competitive programming</h2>
-      <p>
-        I represented NYU at the ICPC North America Greater New York Regional in October 2025.
-        I'm rated 4 stars on CodeChef (max 1801) and practice regularly on Codeforces and LeetCode.
-      </p>
+    <section class="section" aria-labelledby="study-h">
+      <div class="section-label">
+        <h2 id="study-h">Systems I'm studying</h2>
+        <p class="note">Reading notes, not expertise.</p>
+      </div>
+      <div class="section-body">
+        <p class="intro-line">Papers I've read to understand the designs behind tools I use.</p>
+        <dl class="rows">
+          {papers.map((p) => (
+            <div><dt>{p.name}</dt><dd>{p.what}</dd></div>
+          ))}
+        </dl>
+      </div>
+    </section>
 
-      <h2>Papers I've read</h2>
-      <p>I read systems papers to understand the designs behind the tools I use. A few of them:</p>
-      <ul>
-        <li>MapReduce</li>
-        <li>HDFS</li>
-        <li>Bigtable</li>
-        <li>ZooKeeper</li>
-        <li>Kafka</li>
-        <li>Spark (resilient distributed datasets)</li>
-        <li>Apache Flink</li>
-      </ul>
-
-      <h2>Contact</h2>
-      <p>
-        The best way to reach me is email at <a href={`mailto:${site.email}`}>{site.email}</a>.
-        I'm also on <a href={site.linkedin}>LinkedIn</a> and <a href={site.github}>GitHub</a>.
-      </p>
+    <section class="section" aria-labelledby="cp-h">
+      <div class="section-label">
+        <h2 id="cp-h">Competitive programming</h2>
+      </div>
+      <div class="section-body">
+        <p>
+          I represented NYU at the ICPC North America Greater New York Regional in October 2025.
+          I'm rated 4 stars on CodeChef (max 1801) and practice regularly on Codeforces and
+          LeetCode. Graph problems and dynamic programming are my favorites.
+        </p>
+      </div>
     </section>
   </div>
 </Base>
+
+<style>
+  .about-text p {
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 1.12rem + 0.45vw, 1.5rem);
+    line-height: 1.5;
+    max-width: 36rem;
+    margin-bottom: 1.2em;
+  }
+  .story-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    text-decoration: none;
+    min-width: min(100%, 22rem);
+  }
+  .story-title { display: block; font-size: 1.0625rem; font-weight: 500; color: var(--accent); }
+  .story-sub { display: block; color: var(--muted); font-size: 0.9375rem; margin-top: 0.15rem; }
+  .story-link:hover .story-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .intro-line { margin-bottom: 1.5rem; }
+</style>

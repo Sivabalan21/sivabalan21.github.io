@@ -1,61 +1,121 @@
 ---
 import Base from '../layouts/Base.astro';
-import Trace from '../components/Trace.astro';
 import ProjectList from '../components/ProjectList.astro';
+import Metrics from '../components/Metrics.astro';
+import Logo from '../components/Logo.astro';
 import { getCollection } from 'astro:content';
-import { site } from '../data/site';
+import { site, currently } from '../data/site';
 
 const projects = (await getCollection('projects'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('writing'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 <Base>
   <div class="wrap">
-    <section class="intro">
-      <h1>Software engineer working on backend systems and applied AI.</h1>
-      <p>
-        I'm Siva. I spent three years at Ezee.ai building backend systems for lenders: APIs,
-        batch pipelines, and platform services used by about 100 financial institutions. I'm now
-        in the second year of the MS CS program at NYU Courant, working on LLM applications and
-        GPU systems.
+    <section class="hero">
+      <p class="hello reveal" style="--i:0">Hello, I'm Siva.</p>
+      <h1 class="reveal" style="--i:1">Software engineer building backend systems and AI infrastructure.</h1>
+      <p class="lede reveal" style="--i:2">
+        I'm an MS Computer Science student at NYU Courant. Before that, I spent three years
+        building production backend systems for financial institutions. Now I work across
+        backend and distributed systems, LLMs, and GPU programming.
       </p>
-      <p>
-        I graduate in May 2027 and I'm looking for full-time roles in software engineering,
-        applied AI, and forward deployed engineering.
-      </p>
-      <div class="links">
-        <a href={`mailto:${site.email}`}>Email me</a>
-        <a href={site.resume}>Resume (PDF)</a>
-        <a href={site.github}>GitHub</a>
-        <a href={site.linkedin}>LinkedIn</a>
+      <div class="links reveal" style="--i:3">
+        <a class="u always" href="#work">Projects</a>
+        <a class="u always" href={site.resume}>Resume</a>
+        <a class="u always" href={site.github}>GitHub</a>
+        <a class="u always" href={site.linkedin}>LinkedIn</a>
       </div>
-      <Trace />
     </section>
 
-    <section aria-labelledby="work-heading">
-      <div class="section-head">
-        <h2 id="work-heading">Projects</h2>
+    <section class="section" id="work" aria-labelledby="work-h">
+      <div class="section-label">
+        <h2 id="work-h">Selected work</h2>
+        <p class="note">Each one has a full write-up.</p>
       </div>
-      <ProjectList projects={projects} />
+      <div class="section-body">
+        <ProjectList projects={projects} />
+      </div>
     </section>
 
-    <section aria-labelledby="exp-heading">
-      <div class="section-head">
-        <h2 id="exp-heading">Experience</h2>
-        <a href="/experience">Full experience</a>
+    <section class="section" aria-labelledby="exp-h">
+      <div class="section-label">
+        <h2 id="exp-h">Experience</h2>
+        <p class="note">Before NYU.</p>
       </div>
-      <div class="role">
-        <div class="when">Jun 2022 – Jul 2025</div>
-        <div>
-          <h3>Member of technical staff, Ezee.ai</h3>
-          <p class="muted">Lending software, Chennai</p>
-          <ul>
-            <li>Owned the performance management platform end to end: 18 REST APIs and 2 batch pipelines scoring debt collection for about 100 financial institutions across 10M+ loan accounts.</li>
-            <li>Cut a critical batch pipeline from 180 to 20 minutes by reworking MongoDB aggregations and indexes, adding Redis caching, and switching to bulk writes.</li>
-            <li>Designed shared platform services for access management, notifications, and approval workflows, used across the product.</li>
-          </ul>
+      <div class="section-body">
+        <article class="entry">
+          <div class="years">2022 — 2025</div>
+          <div>
+            <div class="org">
+              <Logo name="ezee" alt="" />
+              <h3>Veefin / Ezee.ai</h3>
+            </div>
+            <p class="role-line">Intern, then member of technical staff. Lending software for financial institutions.</p>
+            <p>
+              I owned the performance management platform, designed shared services used across the
+              product, and worked directly with client teams on enterprise features. A lot of my work
+              was making MongoDB-backed services faster.
+            </p>
+            <Metrics />
+            <a class="u always" href="/experience">Full experience <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="now-h">
+      <div class="section-label">
+        <h2 id="now-h">Currently</h2>
+        <p class="note">As of fall 2026.</p>
+      </div>
+      <div class="section-body">
+        <dl class="rows">
+          {currently.map((c) => (
+            <div><dt>{c.label}</dt><dd>{c.value}</dd></div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    {posts.length > 0 && (
+      <section class="section" aria-labelledby="notes-h">
+        <div class="section-label">
+          <h2 id="notes-h">Notes</h2>
         </div>
+        <div class="section-body">
+          <dl class="rows">
+            {posts.map((p) => (
+              <div>
+                <dt>{p.data.category}</dt>
+                <dd><a class="u" href={`/writing/${p.id}`}>{p.data.title}</a></dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )}
+
+    <section class="section" aria-labelledby="contact-h">
+      <div class="section-label">
+        <h2 id="contact-h">Contact</h2>
+      </div>
+      <div class="section-body">
+        <p class="contact-line">
+          The best way to reach me is email:
+          <a class="text-link" href={`mailto:${site.email}`}>{site.email}</a>.
+          I'm open to full-time roles starting after May 2027.
+        </p>
       </div>
     </section>
   </div>
 </Base>
+
+<style>
+  .contact-line { font-family: var(--serif); font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem); line-height: 1.35; max-width: 34rem; margin: 0; }
+  .contact-line a { overflow-wrap: anywhere; }
+</style>

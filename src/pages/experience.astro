@@ -1,44 +1,108 @@
 ---
 import Base from '../layouts/Base.astro';
+import Metrics from '../components/Metrics.astro';
+import Logo from '../components/Logo.astro';
+import { skills, coursework } from '../data/site';
 ---
-<Base title="Experience" description="Three years of backend engineering on lending software at Ezee.ai.">
+<Base title="Experience" description="Three years of production backend engineering at Veefin / Ezee.ai, and an MS in Computer Science at NYU Courant.">
   <div class="wrap">
-    <section class="intro">
+    <header class="page-head">
       <h1>Experience</h1>
-      <p>
-        Three years at Ezee.ai, a lending software company serving banks and financial
-        institutions in India. I started as an intern and grew into owning platforms, leading
-        feature design, and working directly with client teams.
+      <p class="lede">
+        Three years on lending software at Ezee.ai, from intern to owning platforms and working
+        with client teams. Now a master's at NYU Courant.
       </p>
+    </header>
+
+    <section class="section" aria-labelledby="work-h">
+      <div class="section-label"><h2 id="work-h">Work</h2></div>
+      <div class="section-body">
+        <article class="entry">
+          <div class="years">2022 — 2025</div>
+          <div>
+            <div class="org">
+              <Logo name="ezee" alt="" />
+              <h3>Veefin / Ezee.ai</h3>
+            </div>
+            <p class="role-line">Member of technical staff, Jun 2022 – Jul 2025. Chennai, India.</p>
+            <Metrics />
+            <ul>
+              <li>Owned the performance management platform end to end: 18 REST APIs and 2 batch pipelines scoring debt-collection performance for about 100 financial institutions across 10M+ loan accounts.</li>
+              <li>Re-architected a critical batch pipeline, cutting its runtime 9x (180 to 20 minutes) through MongoDB aggregation tuning, compound indexes, Redis caching, field projection, and bulk writes. The bottleneck had been open for over two years.</li>
+              <li>Designed 3 reusable platform services used across the product: access management modeled on IAM (about 50 APIs, JWT and RBAC), multi-channel notifications (email, SMS, WhatsApp, push), and multi-level approval workflows driven by configurable business rules.</li>
+              <li>Led technical design for enterprise features, worked directly with financial institution clients to turn requirements into system designs, reviewed PRs, mentored junior engineers, and ran production releases.</li>
+              <li>Won the internal AI hackathon (May 2025) with an LLM-powered lending workflow generator built on RAG.</li>
+              <li>Received the Innovation Instigator Award (2025) for architectural design, feature ownership, and performance work.</li>
+            </ul>
+            <div class="aside" id="incident">
+              <h4>Production incident</h4>
+              <p>
+                A live MongoDB collection was accidentally deleted. I reconstructed the data from logs
+                and dependent collections within about 10 hours and restored service for the client.
+                Afterward I wrote the backup and recovery standard the company adopted.
+              </p>
+            </div>
+            <p class="muted stack-line mono">Node.js · Express · MongoDB · Redis · Kafka · RabbitMQ · GraphQL · AWS</p>
+          </div>
+        </article>
+
+        <article class="entry" id="intern">
+          <div class="years">2022</div>
+          <div>
+            <div class="org">
+              <Logo name="ezee" alt="" />
+              <h3>Veefin / Ezee.ai</h3>
+            </div>
+            <p class="role-line">Backend development intern, Feb – May 2022</p>
+            <p>Built a reusable backend component library and a generic API versioning framework that later features were built on, cutting development effort by 50%.</p>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <section aria-label="Ezee.ai">
-      <div class="role">
-        <div class="when">Jun 2022 – Jul 2025</div>
-        <div>
-          <h3>Member of technical staff, Ezee.ai</h3>
-          <p class="muted">Chennai, India. Node.js, Express, MongoDB, Redis, Kafka, RabbitMQ, GraphQL, AWS</p>
-          <ul>
-            <li>Owned the performance management platform end to end: 18 REST APIs and 2 batch pipelines scoring debt-collection performance for about 100 financial institutions across 10M+ loan accounts.</li>
-            <li>Re-architected a critical batch pipeline, cutting its runtime 9x (180 to 20 minutes) through MongoDB aggregation tuning, compound indexes, Redis caching, field projection, and bulk writes. The bottleneck had been open for over two years.</li>
-            <li>Designed 3 reusable platform services used across the product: access management modeled on IAM (about 50 APIs, JWT and RBAC), multi-channel notifications (email, SMS, WhatsApp, push), and multi-level approval workflows driven by configurable business rules.</li>
-            <li>Led technical design for enterprise features, worked directly with financial institution clients to turn requirements into system designs, reviewed PRs, mentored junior engineers, and ran production releases.</li>
-            <li>Resolved 30+ production incidents. When a live MongoDB collection was accidentally deleted, I reconstructed the data from logs and dependent collections within 10 hours to restore the client, then wrote the backup and recovery standard the company adopted.</li>
-            <li>Won the internal AI hackathon (May 2025) with an LLM-powered lending workflow generator built on RAG.</li>
-            <li>Received the Innovation Instigator Award (2025) for architectural design, feature ownership, and performance work.</li>
-          </ul>
-        </div>
+    <section class="section" aria-labelledby="edu-h">
+      <div class="section-label"><h2 id="edu-h">Education</h2></div>
+      <div class="section-body">
+        <article class="entry">
+          <div class="years">2025 — 2027</div>
+          <div>
+            <div class="org">
+              <Logo name="nyu" alt="" />
+              <h3>New York University, Courant Institute</h3>
+            </div>
+            <p class="role-line">MS in Computer Science, Sep 2025 – May 2027. GPA 3.67.</p>
+            <p class="coursework"><span class="muted">Coursework:</span> {coursework.join(', ')}.</p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="years">2018 — 2022</div>
+          <div>
+            <div class="org">
+              <Logo name="amrita" alt="" />
+              <h3>Amrita School of Engineering</h3>
+            </div>
+            <p class="role-line">B.Tech in Computer Science and Engineering. GPA 8.6/10.</p>
+          </div>
+        </article>
       </div>
-      <div class="role" id="intern">
-        <div class="when">Feb – May 2022</div>
-        <div>
-          <h3>Backend development intern, Ezee.ai</h3>
-          <p class="muted">Chennai, India</p>
-          <ul>
-            <li>Built a reusable backend component library and a generic API versioning framework that later features were built on, cutting development effort by 50%.</li>
-          </ul>
-        </div>
+    </section>
+
+    <section class="section" aria-labelledby="skills-h">
+      <div class="section-label"><h2 id="skills-h">Skills</h2></div>
+      <div class="section-body">
+        <dl class="rows">
+          {skills.map((s) => (
+            <div><dt>{s.group}</dt><dd>{s.items.join(' · ')}</dd></div>
+          ))}
+        </dl>
+        <p class="resume-line"><a class="u always" href="/resume.pdf">Download resume (PDF) <span class="arrow" aria-hidden="true">→</span></a></p>
       </div>
     </section>
   </div>
 </Base>
+
+<style>
+  .stack-line { margin: 1.75rem 0 0; }
+  .coursework { font-size: 0.9375rem; max-width: 38rem; }
+  .resume-line { margin-top: 2rem; }
+</style>

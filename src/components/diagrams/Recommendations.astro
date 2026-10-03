@@ -1,0 +1,16 @@
+---
+import Flow from '../Flow.astro';
+---
+<figure class="figure">
+  <div class="diagram">
+    <Flow
+      stages={[
+        { title: 'Data', items: ['75M+ Amazon reviews', 'live orders via Kafka'] },
+        { title: 'Training', items: ['Spark MLlib ALS', 'tuned with Ray Tune'] },
+        { title: 'Re-ranking', items: ['GraphFrames PageRank'] },
+        { title: 'Serving', items: ['Ray Serve', 'REST API'] },
+      ]}
+    />
+  </div>
+  <figcaption class="note">Pipeline overview, from raw reviews to a served recommendation API.</figcaption>
+</figure>

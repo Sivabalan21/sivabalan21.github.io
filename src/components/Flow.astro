@@ -1,0 +1,51 @@
+---
+// A left-to-right pipeline diagram that stacks vertically on narrow screens.
+interface Stage { title: string; items: string[] }
+interface Props { stages: Stage[]; label?: string }
+const { stages, label } = Astro.props;
+---
+<div class="flow-wrap">
+  {label && <p class="flow-label">{label}</p>}
+  <ol class="flow" style={`--n:${stages.length}`}>
+    {stages.map((s) => (
+      <li class="stage">
+        <span class="stage-title">{s.title}</span>
+        <ul>{s.items.map((it) => <li>{it}</li>)}</ul>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .flow-wrap + .flow-wrap { margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid var(--rule); }
+  .flow-label { font-family: var(--serif); font-style: italic; color: var(--muted); margin: 0 0 1rem; }
+  .flow {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    gap: 2.25rem;
+  }
+  .stage {
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 5px;
+    padding: 0.9rem 1rem 1rem;
+    min-width: 0;
+  }
+  .stage + .stage::before {
+    content: '→';
+    position: absolute; left: -1.7rem; top: 50%;
+    transform: translateY(-50%);
+    color: var(--faint); font-size: 1rem; line-height: 1;
+  }
+  .stage-title { display: block; font-weight: 500; font-size: 0.9375rem; line-height: 1.35; margin-bottom: 0.5rem; }
+  .stage ul { list-style: none; margin: 0; padding: 0; }
+  .stage ul li {
+    font-family: var(--mono); font-size: 0.75rem; line-height: 1.45;
+    color: var(--muted); margin: 0 0 0.3rem; overflow-wrap: anywhere;
+  }
+  @media (max-width: 46rem) {
+    .flow { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+    .stage + .stage::before { content: '↓'; left: 50%; top: -1.4rem; transform: translateX(-50%); }
+  }
+</style>

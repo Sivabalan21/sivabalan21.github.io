@@ -1,0 +1,16 @@
+---
+import Flow from '../Flow.astro';
+---
+<figure class="figure">
+  <div class="diagram">
+    <Flow
+      stages={[
+        { title: 'Clinical workflows', items: ['React', '13 workflows', 'imaging, voice-to-SOAP, lab extraction'] },
+        { title: 'Application backend', items: ['Node.js', 'RBAC access control', 'notifications', 'PostgreSQL, Redis'] },
+        { title: 'AI orchestration layer', items: ['one interface for every model call', 'routes to a provider'] },
+        { title: 'Model providers', items: ['Groq (hosted)', 'MedGemma via Ollama (local)'] },
+      ]}
+    />
+  </div>
+  <figcaption class="note">Simplified architecture. Features ask the orchestration layer for a capability instead of calling a model API directly.</figcaption>
+</figure>

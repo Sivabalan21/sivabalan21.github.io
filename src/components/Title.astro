@@ -1,0 +1,8 @@
+---
+// Keeps hyphenated tokens like "FlashAttention-3" from breaking across lines.
+interface Props { text: string }
+const parts = Astro.props.text.split(' ');
+---
+{parts.map((w, i) => (
+  <>{w.includes('-') ? <span class="nw">{w}</span> : w}{i < parts.length - 1 ? ' ' : ''}</>
+))}

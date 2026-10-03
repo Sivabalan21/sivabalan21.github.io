@@ -1,39 +1,78 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
+import { diagrams } from '../../components/diagrams';
+import Title from '../../components/Title.astro';
 
 export async function getStaticPaths() {
-  const projects = (await getCollection('projects')).filter((p) => !p.data.draft);
-  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+  const projects = (await getCollection('projects'))
+    .filter((p) => !p.data.draft)
+    .sort((a, b) => a.data.order - b.data.order);
+  return projects.map((p, i) => ({
+    params: { slug: p.id },
+    props: { project: p, index: i, total: projects.length, next: projects[(i + 1) % projects.length] },
+  }));
 }
 
-const { project } = Astro.props;
-const { Content } = await render(project);
+const { project, index, total, next } = Astro.props;
+const { Content, headings } = await render(project);
 const d = project.data;
+const pad = (n: number) => String(n).padStart(2, '0');
+const Diagram = diagrams[project.id];
+const toc = [...headings.filter((h) => h.depth === 2), { slug: 'results', text: 'Results' }];
 ---
 <Base title={d.title} description={d.summary}>
   <div class="wrap">
-    <header class="case-head">
-      <a class="back" href="/projects">All projects</a>
-      <h1>{d.title}</h1>
+    <header class="page-head">
+      <a class="kicker u" href="/projects">Project {pad(index + 1)} of {pad(total)}</a>
+      <h1><Title text={d.title} /></h1>
       <p class="lede">{d.summary}</p>
-      {d.links.length > 0 && (
-        <div class="case-links">
-          {d.links.map((l) => <a href={l.href}>{l.label}</a>)}
-        </div>
-      )}
-      <dl class="facts">
+      <dl class="meta">
         <div><dt>When</dt><dd>{d.period}</dd></div>
         <div><dt>Context</dt><dd>{d.context}</dd></div>
         <div><dt>Stack</dt><dd>{d.stack.join(', ')}</dd></div>
-        <div class="wide">
-          <dt>Results</dt>
-          <dd><ul>{d.results.map((r) => <li>{r}</li>)}</ul></dd>
-        </div>
       </dl>
+      {d.links.length > 0 && (
+        <p class="case-links">
+          {d.links.map((l) => <a class="u always" href={l.href}>{l.label} <span class="arrow" aria-hidden="true">→</span></a>)}
+        </p>
+      )}
     </header>
-    <article class="prose">
-      <Content />
-    </article>
+
+    {Diagram && <Diagram />}
+
+    <div class="case-body">
+      <aside class="side" aria-label="On this page">
+        <p class="note">On this page</p>
+        <ol class="toc">
+          {toc.map((h) => <li><a class="u" href={`#${h.slug}`}>{h.text}</a></li>)}
+        </ol>
+      </aside>
+      <article class="prose">
+        <Content />
+        <h2 id="results">Results</h2>
+        <ul class="results">
+          {d.results.map((r) => <li>{r}</li>)}
+        </ul>
+      </article>
+    </div>
+
+    <nav class="next" aria-label="Next project">
+      <p class="note k">Next project</p>
+      <a href={`/projects/${next.id}`}>
+        <span class="t u"><Title text={next.data.title} /></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </nav>
   </div>
 </Base>
+
+<style>
+  .case-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin: 1.5rem 0 0; font-size: 0.9375rem; }
+  .toc { list-style: none; margin: 0.75rem 0 0; padding: 0; font-size: 0.9375rem; }
+  .toc li { margin-bottom: 0.4rem; }
+  .toc a { color: var(--muted); }
+  .toc a:hover { color: var(--ink); }
+  .next a { display: inline-flex; align-items: baseline; gap: 0.6rem; }
+  .next .arrow { font-size: 1.25rem; color: var(--accent); }
+</style>

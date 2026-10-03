@@ -1,17 +1,47 @@
 export const site = {
   name: 'Siva Balan Saravanan',
   shortName: 'Siva Balan',
+  title: 'Siva Balan — Software Engineer',
   description:
-    'Software engineer with three years of production backend experience, now an MS CS student at NYU Courant working on applied AI and GPU systems.',
+    'Siva Balan, software engineer and NYU MS Computer Science student. Three years of production backend and distributed systems work, now building AI infrastructure and GPU systems.',
   email: 'sivabalan212k@gmail.com',
   github: 'https://github.com/sivabalan21',
   linkedin: 'https://www.linkedin.com/in/siva-balan-063581189',
   resume: '/resume.pdf',
 };
 
-// Non-project spans on the career trace. Months are ISO "YYYY-MM", end inclusive.
-export const traceSpans = [
-  { lane: 'work', label: 'Intern', detail: 'Backend development intern, Ezee.ai, Feb–May 2022', start: '2022-02', end: '2022-05', href: '/experience#intern' },
-  { lane: 'work', label: 'Ezee.ai, member of technical staff', detail: 'Member of technical staff, Ezee.ai, Jun 2022 – Jul 2025', start: '2022-06', end: '2025-07', href: '/experience' },
-  { lane: 'study', label: 'MS CS, NYU Courant', detail: 'MS in Computer Science, NYU Courant, Sep 2025 – May 2027', start: '2025-09', end: '2027-05', href: '/about' },
+export const currently = [
+  { label: 'Studying', value: 'MS Computer Science at NYU Courant' },
+  { label: 'Building', value: 'LLM and GPU systems' },
+  { label: 'Learning', value: 'Technologies for Finance' },
+  { label: 'Looking for', value: 'Full-time software engineering and AI systems roles, from May 2027' },
+];
+
+// Shown on the home page and the experience page.
+export const ezeeMetrics = [
+  { value: '~100', label: 'financial institutions' },
+  { value: '10M+', label: 'loan accounts' },
+  { value: '18', label: 'REST APIs owned' },
+  { value: '180 → 20 min', label: 'batch pipeline runtime' },
+  { value: '~50', label: 'access-management APIs' },
+  { value: '30+', label: 'production incidents resolved' },
+];
+
+export const skills = [
+  { group: 'Languages', items: ['C++', 'Python', 'Java', 'JavaScript', 'SQL', 'C'] },
+  { group: 'Backend and distributed systems', items: ['Node.js', 'Express', 'Kafka', 'Redis', 'RabbitMQ', 'PostgreSQL', 'MongoDB', 'Spark', 'Hadoop', 'Hive'] },
+  { group: 'AI and ML systems', items: ['PyTorch', 'CUDA', 'Triton', 'CUTLASS', 'FlashAttention', 'RAG', 'LLMs'] },
+  { group: 'Infrastructure', items: ['AWS', 'GCP', 'Docker', 'Jenkins', 'Slurm'] },
+];
+
+export const coursework = [
+  'Building LLM Reasoners',
+  'GPU Programming and Architecture',
+  'Machine Learning',
+  'Realtime Big Data Analytics',
+  'Big Data Application Development',
+  'Technologies for Finance',
+  'Fundamental Algorithms',
+  'Operating Systems',
+  'Programming Languages',
 ];

@@ -5,30 +5,34 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+const order = ['Systems', 'AI and LLMs', 'GPU', 'Backend', 'Finance and market infrastructure'];
+const groups = order
+  .map((c) => ({ category: c, posts: posts.filter((p) => p.data.category === c) }))
+  .filter((g) => g.posts.length > 0);
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' });
 ---
-<Base title="Writing" description="Technical notes on systems, GPUs, and AI.">
+<Base title="Writing" description="Technical notes on systems, GPUs, AI, and backend engineering.">
   <div class="wrap">
-    <section class="intro">
+    <header class="page-head">
       <h1>Writing</h1>
-      <p>Notes on things I've built or studied.</p>
-    </section>
-    <section>
-      {posts.length === 0 ? (
-        <p class="muted">No posts published yet.</p>
-      ) : (
-        <ul class="project-list">
-          {posts.map((p) => (
-            <li>
-              <a class="project-row" href={`/writing/${p.id}`}>
-                <h3>{p.data.title}</h3>
-                <span class="when">{fmt(p.data.date)}</span>
-                <p class="summary">{p.data.description}</p>
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+      <p class="lede">Notes on things I've built or studied.</p>
+    </header>
+    {groups.length === 0 ? (
+      <section class="section"><div class="section-label"></div><div class="section-body"><p class="muted">Nothing published yet.</p></div></section>
+    ) : groups.map((g) => (
+      <section class="section">
+        <div class="section-label"><h2>{g.category}</h2></div>
+        <div class="section-body">
+          <dl class="rows">
+            {g.posts.map((p) => (
+              <div>
+                <dt class="tnum">{fmt(p.data.date)}</dt>
+                <dd><a class="u" href={`/writing/${p.id}`}>{p.data.title}</a><br /><span class="muted">{p.data.description}</span></dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    ))}
   </div>
 </Base>

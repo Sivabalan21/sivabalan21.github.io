@@ -24,7 +24,9 @@ The site will be live at https://sivabalan21.github.io
 | What | File |
 |---|---|
 | Name, email, links | `src/data/site.ts` |
-| Work/study spans on the timeline | `src/data/site.ts` (`traceSpans`) |
+| Currently, metrics, skills, coursework | `src/data/site.ts` |
+| Project diagrams | `src/components/diagrams/` |
+| Company and school logos | `public/logos/` (see below) |
 | Project case studies | `src/content/projects/*.md` |
 | Home page intro and experience summary | `src/pages/index.astro` |
 | Full experience | `src/pages/experience.astro` |
@@ -37,8 +39,6 @@ The site will be live at https://sivabalan21.github.io
 Each project is a Markdown file. The frontmatter controls the list, the case study header, and the timeline:
 
 - `order` sets the position in the project list.
-- `start` / `end` (`"YYYY-MM"`, end inclusive) place it on the timeline.
-- `short` is the label on the timeline.
 - `links` takes `{ label, href }` entries, e.g. GitHub, Demo, Report.
 - `draft: true` hides it.
 
@@ -49,3 +49,17 @@ Images: put them in `public/images/` and reference them as `![alt](/images/name.
 ## Writing
 
 Add Markdown files to `src/content/writing/`. The Writing link appears in the nav automatically once there is at least one post with `draft: false`. Files starting with `_` are ignored.
+
+## Logos
+
+Add official logo files to `public/logos/` with these names (svg, png, or webp):
+
+- `ezee.svg` for Veefin / Ezee.ai
+- `nyu.svg` for NYU
+- `amrita.svg` for Amrita (optional)
+
+They show at 28px next to the matching entries. Until a file exists, nothing renders, so there's never a broken image.
+
+## Fonts
+
+Fonts are self-hosted through Fontsource (Newsreader for headings, IBM Plex Sans for text, IBM Plex Mono for code and stack lists), so there are no requests to Google Fonts.

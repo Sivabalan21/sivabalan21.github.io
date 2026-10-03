@@ -12,13 +12,14 @@ const date = post.data.date.toLocaleDateString('en-US', { year: 'numeric', month
 ---
 <Base title={post.data.title} description={post.data.description}>
   <div class="wrap">
-    <header class="case-head">
-      <a class="back" href="/writing">All writing</a>
+    <header class="page-head">
+      <a class="kicker u" href="/writing">{post.data.category}</a>
       <h1>{post.data.title}</h1>
       <p class="muted">{date}</p>
     </header>
-    <article class="prose">
-      <Content />
-    </article>
+    <div class="case-body">
+      <div class="side"></div>
+      <article class="prose"><Content /></article>
+    </div>
   </div>
 </Base>
