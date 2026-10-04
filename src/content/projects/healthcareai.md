@@ -1,6 +1,8 @@
 ---
 title: HealthcareAI
 short: HealthcareAI
+kind: "Applied AI · Full-stack product"
+highlight: "Finalist among 40 teams at Columbia’s AI for Good Hackathon"
 summary: An AI-assisted clinical platform covering 13 workflows, with a provider layer that can run on Groq, MedGemma, or local Ollama models.
 context: Columbia AI for Good Hackathon, finalist among 40 teams
 start: "2026-02"

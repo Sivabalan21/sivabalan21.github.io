@@ -24,13 +24,16 @@ The site will be live at https://sivabalan21.github.io
 | What | File |
 |---|---|
 | Name, email, links | `src/data/site.ts` |
-| Currently, metrics, skills, coursework | `src/data/site.ts` |
+| Experience numbers (by scope), skills, tools, education, achievements, highlights | `src/data/site.ts` |
+| Systems notes | `src/content/notes/*.md` (cross-cutting ideas in `src/pages/notes/index.astro`) |
 | Project diagrams | `src/components/diagrams/` |
 | Company and school logos | `public/logos/` (see below) |
 | Project case studies | `src/content/projects/*.md` |
 | Home page intro and experience summary | `src/pages/index.astro` |
 | Full experience | `src/pages/experience.astro` |
-| About page | `src/pages/about.astro` |
+| About page (intro, principles block, story) | `src/pages/about.astro` |
+| Education timeline | `src/pages/education.astro` |
+| Achievements | `src/pages/achievements.astro` |
 | Resume PDF | `public/resume.pdf` (replace the file to update) |
 | Colors and type | `src/styles/global.css` |
 
@@ -63,3 +66,11 @@ They show at 28px next to the matching entries. Until a file exists, nothing ren
 ## Fonts
 
 Fonts are self-hosted through Fontsource (Newsreader for headings, IBM Plex Sans for text, IBM Plex Mono for code and stack lists), so there are no requests to Google Fonts.
+
+## Systems notes
+
+One Markdown file per paper in `src/content/notes/`. Frontmatter: `title`, `paper`, `authors`, `venue`, `theme` (one of the four themes in `src/data/site.ts`), `summary`, `order`. Sections use `##` headings, which also build the "On this page" index.
+
+## Unfinished projects
+
+`src/content/projects/ransomware.md` and `elective-management-system.md` are `draft: true` and don't appear anywhere on the site. Fill in the fields and set `draft: false` to publish them as projects 05 and 06.

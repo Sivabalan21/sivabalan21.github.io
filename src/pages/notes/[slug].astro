@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const notes = (await getCollection('notes'))
+    .filter((n) => !n.data.draft)
+    .sort((a, b) => a.data.order - b.data.order);
+  return notes.map((n, i) => ({
+    params: { slug: n.id },
+    props: { note: n, prev: notes[i - 1] ?? null, next: notes[i + 1] ?? null },
+  }));
+}
+
+const { note, prev, next } = Astro.props;
+const { Content, headings } = await render(note);
+const d = note.data;
+const toc = headings.filter((h) => h.depth === 2);
+---
+<Base title={`${d.title} notes`} description={d.summary}>
+  <div class="wrap">
+    <header class="page-head">
+      <a class="kicker u" href="/notes">Systems notes, {d.theme.toLowerCase()}</a>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+      <p class="paper">
+        <span class="paper-title">{d.paper}</span>
+        <span class="muted">{d.authors}, {d.venue}</span>
+      </p>
+    </header>
+
+    <div class="case-body">
+      <aside class="side" aria-label="On this page">
+        <p class="note">On this page</p>
+        <ol class="toc">
+          {toc.map((h) => <li><a class="u" href={`#${h.slug}`}>{h.text}</a></li>)}
+        </ol>
+      </aside>
+      <article class="prose">
+        <Content />
+      </article>
+    </div>
+
+    <nav class="pager" aria-label="More notes">
+      <div>
+        {prev && (
+          <a href={`/notes/${prev.id}`}>
+            <span class="note">Previous</span>
+            <span class="t u">{prev.data.title}</span>
+          </a>
+        )}
+      </div>
+      <div class="right">
+        {next && (
+          <a href={`/notes/${next.id}`}>
+            <span class="note">Next</span>
+            <span class="t u">{next.data.title} <span class="arrow" aria-hidden="true">→</span></span>
+          </a>
+        )}
+      </div>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  .paper { margin: 1.75rem 0 0; padding-top: 1.1rem; border-top: 1px solid var(--rule); max-width: 40rem; font-size: 0.9375rem; display: grid; gap: 0.15rem; }
+  .paper-title { font-family: var(--serif); font-style: italic; font-size: 1.0625rem; }
+  .toc { list-style: none; margin: 0.75rem 0 0; padding: 0; font-size: 0.9375rem; }
+  .toc li { margin-bottom: 0.4rem; }
+  .toc a { color: var(--muted); }
+  .toc a:hover { color: var(--ink); }
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: var(--section-space); padding-top: 2rem; border-top: 1px solid var(--rule); }
+  .pager a { text-decoration: none; display: inline-grid; gap: 0.2rem; }
+  .pager .t { font-family: var(--serif); font-size: 1.5rem; line-height: 1.2; }
+  .pager .right { text-align: right; }
+  @media (max-width: 46rem) { .pager .t { font-size: 1.25rem; } }
+</style>

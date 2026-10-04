@@ -9,6 +9,7 @@ import '@fontsource/ibm-plex-mono/latin-400.css';
 import '../styles/global.css';
 import { getCollection } from 'astro:content';
 import { site } from '../data/site';
+import SocialButtons from '../components/SocialButtons.astro';
 
 interface Props {
   title?: string;
@@ -22,12 +23,17 @@ const ogImage = new URL('/og.png', Astro.site);
 
 const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
 const nav = [
-  { href: '/about', label: 'About' },
+  { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/experience', label: 'Experience' },
+  { href: '/notes', label: 'Systems Notes' },
   ...(posts.length ? [{ href: '/writing', label: 'Writing' }] : []),
+  { href: '/education', label: 'Education' },
+  { href: '/achievements', label: 'Achievements' },
+  { href: '/about', label: 'About' },
 ];
-const isCurrent = (href: string) => path === href || path.startsWith(href + '/');
+const isCurrent = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 const year = new Date().getFullYear();
 ---
 <!doctype html>
@@ -66,15 +72,13 @@ const year = new Date().getFullYear();
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href="/">Siva Balan</a>
-        <nav class="nav" aria-label="Main">
+        <a class="brand" href="/" title="Home">Siva Balan</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <nav class="nav" id="site-nav" aria-label="Main">
           {nav.map((n) => (
             <a class="u" href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>
           ))}
-          <a class="u" href={site.resume}>Resume</a>
-          <span class="sep" aria-hidden="true"></span>
-          <a class="u ext" href={site.github}>GitHub</a>
-          <a class="u ext" href={site.linkedin}>LinkedIn</a>
+          <a class="u" href={site.resume}>Resume <span class="ext-arrow" aria-hidden="true">↗</span></a>
         </nav>
       </div>
     </header>
@@ -85,13 +89,14 @@ const year = new Date().getFullYear();
 
     <footer class="site-footer">
       <div class="wrap">
-        <div class="who">Siva Balan<span>Software engineer, NYU MS Computer Science</span></div>
-        <nav aria-label="Contact">
-          <a class="u always" href={`mailto:${site.email}`}>Email</a>
-          <a class="u always" href={site.github}>GitHub</a>
-          <a class="u always" href={site.linkedin}>LinkedIn</a>
-          <a class="u always" href={site.resume}>Resume</a>
-        </nav>
+        <div class="who">Siva Balan<span>Software engineer. MS Computer Science, NYU</span></div>
+        <div class="footer-contact">
+          <nav aria-label="Contact">
+            <a class="u always" href={`mailto:${site.email}`}>{site.email}</a>
+            <a class="u always" href={site.resume}>Resume</a>
+          </nav>
+          <SocialButtons />
+        </div>
         <div class="end">
           <button class="theme-toggle u" type="button">Dark mode</button>
           <span>© {year}</span>
@@ -105,6 +110,15 @@ const year = new Date().getFullYear();
         const onScroll = () => header.toggleAttribute('data-scrolled', scrollY > 8);
         onScroll();
         addEventListener('scroll', onScroll, { passive: true });
+
+        const menu = document.querySelector('.menu-toggle');
+        document.documentElement.classList.add('js');
+        menu.addEventListener('click', () => {
+          const open = menu.getAttribute('aria-expanded') === 'true';
+          menu.setAttribute('aria-expanded', String(!open));
+          menu.textContent = open ? 'Menu' : 'Close';
+          header.toggleAttribute('data-open', !open);
+        });
 
         const btn = document.querySelector('.theme-toggle');
         const root = document.documentElement;

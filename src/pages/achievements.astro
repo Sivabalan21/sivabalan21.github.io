@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import { achievements } from '../data/site';
+---
+<Base title="Achievements" description="Achievements: Innovation Instigator Award and AI hackathon win at Ezee.ai, Columbia AI for Good finalist, ICPC Greater New York Regional, and CodeChef 4-star.">
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Achievements</h1>
+      <p class="lede">A few things I'm glad I did, from competitive programming in college to work at Ezee.ai and NYU.</p>
+    </header>
+
+    {achievements.map((group) => (
+      <section class="section" aria-label={group.stage}>
+        <div class="section-label"><h2>{group.stage}</h2></div>
+        <div class="section-body">
+          <ol class="list">
+            {group.items.map((a) => (
+              <li>
+                <p class="date">{a.date}</p>
+                <div>
+                  <h3>{a.title}</h3>
+                  <p class="context">{a.context}</p>
+                  {a.href && <a class="u always more" href={a.href}>{a.linkLabel} <span class="arrow" aria-hidden="true">→</span></a>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li { display: grid; grid-template-columns: 7rem minmax(0, 1fr); column-gap: 1.5rem; padding: 1.4rem 0; border-top: 1px solid var(--rule); }
+  .list li:first-child { border-top: 0; padding-top: 0.2rem; }
+  .date { margin: 0; color: var(--muted); font-size: 0.9375rem; font-variant-numeric: tabular-nums; line-height: 1.9; }
+  .list h3 { font-size: 1.375rem; line-height: 1.3; }
+  .context { margin: 0.4rem 0 0; max-width: 36rem; }
+  .more { display: inline-block; margin-top: 0.6rem; font-size: 0.875rem; color: var(--muted); }
+  .more:hover { color: var(--ink); }
+  @media (max-width: 46rem) {
+    .list li { grid-template-columns: minmax(0, 1fr); }
+    .date { line-height: 1.5; margin-bottom: 0.2rem; }
+  }
+</style>

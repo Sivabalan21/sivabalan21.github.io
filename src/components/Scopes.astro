@@ -1,0 +1,30 @@
+---
+import { scopes } from '../data/site';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const list = compact ? scopes.slice(0, 2) : scopes;
+---
+<div class="scopes">
+  {list.map((s) => (
+    <section class="scope">
+      <h4 class="scope-name">{s.scope}</h4>
+      <dl>
+        {s.items.map((m) => (
+          <div><dt>{m.value}</dt><dd>{m.label}</dd></div>
+        ))}
+      </dl>
+    </section>
+  ))}
+</div>
+
+<style>
+  .scopes { margin: 1.75rem 0; border-top: 1px solid var(--rule); }
+  .scope { padding: 1rem 0 1.1rem; border-bottom: 1px solid var(--rule); }
+  .scope-name { margin: 0; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.6rem; }
+  .scope dl { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem 1.5rem; }
+  .scope dt { font-weight: 500; font-variant-numeric: tabular-nums; }
+  .scope dd { margin: 0.1rem 0 0; color: var(--muted); font-size: 0.875rem; line-height: 1.4; }
+  @media (max-width: 46rem) {
+    .scope dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

@@ -1,6 +1,8 @@
 ---
 title: Building LLM Reasoners
 short: LLM Reasoners
+kind: "ML systems · LLM training"
+highlight: "FlashAttention-2 in Triton; ≥30% on Countdown after GRPO"
 summary: A Transformer language model built from scratch, a FlashAttention-2 kernel in Triton, and RL fine-tuning of a 1.5B math model with GRPO.
 context: NYU coursework
 start: "2026-01"

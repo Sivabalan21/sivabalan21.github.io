@@ -1,17 +1,53 @@
 ---
 import Base from '../layouts/Base.astro';
+import SocialButtons from '../components/SocialButtons.astro';
+import { site } from '../data/site';
 
-const papers = [
-  { name: 'MapReduce', what: 'Batch processing as map and reduce functions, with the framework handling distribution and failures.' },
-  { name: 'HDFS', what: 'A distributed file system built for large files, streaming reads, and commodity hardware.' },
-  { name: 'Bigtable', what: 'A sparse, sorted, distributed map: the design behind many wide-column stores.' },
-  { name: 'ZooKeeper', what: 'A coordination service for configuration, leader election, and locks in distributed systems.' },
-  { name: 'Kafka', what: 'A distributed log for high-throughput messaging and stream processing.' },
-  { name: 'Spark', what: 'Resilient distributed datasets: in-memory cluster computing with lineage-based fault tolerance.' },
-  { name: 'Apache Flink', what: 'Stateful stream processing with consistent checkpoints.' },
+const courses = [
+  { name: 'Fundamental Algorithms', why: 'rigorous algorithmic problem solving' },
+  { name: 'Programming Languages', why: 'programming paradigms and how languages work' },
+  { name: 'Machine Learning', why: 'ML with more rigor than I had before' },
+  { name: 'Building LLM Reasoners', why: 'building and training an LLM from the ground up on GPUs' },
+  { name: 'GPU Programming and Architecture', why: 'how computation happens inside a GPU' },
+  { name: 'Realtime Big Data Analytics, Big Data Application Development', why: 'distributed systems, Kafka, and Spark' },
+  { name: 'Technologies for Finance', why: 'financial systems and high-performance systems' },
+];
+
+const loop = [
+  'Understand the problem',
+  'Understand the existing system',
+  'Reason about the design',
+  'Discuss the tradeoffs',
+  'Make the engineering decision',
+  'Implement it',
+  'Measure the impact',
+  'Improve',
+];
+
+const principles = [
+  'understand why it works',
+  'systems that hold up in production',
+  'measure before optimizing',
+  'AI inside real software',
+];
+
+const ln = (n: number) => `<span class="ln">${String(n).padStart(2, '0')}</span>`;
+const codeHtml = [
+  `${ln(1)}<span class="kw">const</span> principles = [`,
+  ...principles.map((p, i) => `${ln(i + 2)}  <span class="str">"${p}"</span>,`),
+  `${ln(principles.length + 2)}];`,
+].join('\n');
+
+const storyNav = [
+  { id: 'start', title: 'Where it started' },
+  { id: 'college', title: 'College' },
+  { id: 'ezee', title: 'Ezee.ai' },
+  { id: 'nyu', title: 'NYU' },
+  { id: 'how', title: 'How I like to work' },
+  { id: 'next', title: "What's next" },
 ];
 ---
-<Base title="About" description="About Siva Balan: software engineer and NYU MS Computer Science student working on backend systems, AI infrastructure, and GPU programming.">
+<Base title="About" description="About Siva Balan: how a software engineer got into computer science through problem solving, from competitive programming to production systems at Ezee.ai and an MS at NYU Courant.">
   <div class="wrap">
     <header class="page-head">
       <h1>About</h1>
@@ -36,38 +72,169 @@ const papers = [
           problems, learn from experienced engineers, and build systems that are useful to real
           people.
         </p>
-        <a class="story-link" href="/about/story">
-          <span class="story-title">My story <span class="arrow" aria-hidden="true">→</span></span>
-          <span class="story-sub">The longer version, from 8th grade to NYU.</span>
-        </a>
+
+        <figure class="principles" aria-label="Engineering principles: understand why it works; systems that hold up in production; measure before optimizing; AI inside real software.">
+          <pre aria-hidden="true"><code set:html={codeHtml} /></pre>
+        </figure>
+
+        <SocialButtons />
+
+        <nav class="chapters" aria-label="My story">
+          <span class="chapters-label note">My story</span>
+          {storyNav.map((c) => <a class="u" href={`#${c.id}`}>{c.title}</a>)}
+        </nav>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="study-h">
+    <section class="section chapter" id="start" aria-labelledby="start-h">
       <div class="section-label">
-        <h2 id="study-h">Systems I'm studying</h2>
-        <p class="note">Reading notes, not expertise.</p>
+        <h2 id="start-h">Where it started</h2>
+        <p class="note">8th grade</p>
       </div>
-      <div class="section-body">
-        <p class="intro-line">Papers I've read to understand the designs behind tools I use.</p>
-        <dl class="rows">
-          {papers.map((p) => (
-            <div><dt>{p.name}</dt><dd>{p.what}</dd></div>
+      <div class="section-body story">
+        <p>
+          I started learning programming around 8th grade, at my parents' computer teaching
+          institution. I began with C, then moved to C++, Java, and Python, and later explored web
+          development and machine learning. Most of it happened outside school, in the evenings and
+          during summer breaks.
+        </p>
+        <p>
+          I chose computer science because of problem solving. I liked working out how to solve a
+          problem, and then how to solve it efficiently in time and space.
+        </p>
+        <p>
+          At first I struggled a lot, especially with competitive programming. I would keep trying
+          and still not find the solution. Then I realized that different problems call for
+          different techniques, data structures, and algorithms, and that these could be learned.
+        </p>
+        <p>But getting the correct answer was never the part I cared about most. I wanted to know:</p>
+        <ul class="questions">
+          <li>Why does this algorithm work?</li>
+          <li>Why was the problem approached this way?</li>
+          <li>What is the underlying idea?</li>
+          <li>How can I learn to think like that?</li>
+        </ul>
+        <p>That way of thinking is still one of the things I enjoy most about computer science.</p>
+      </div>
+    </section>
+
+    <section class="section chapter" id="college" aria-labelledby="college-h">
+      <div class="section-label">
+        <h2 id="college-h">College</h2>
+        <p class="note">Amrita Vishwa Vidyapeetham, 2018 – 2022</p>
+      </div>
+      <div class="section-body story">
+        <p>
+          In college I studied databases, operating systems, data structures and algorithms,
+          computer networks, cloud computing, and deep learning.
+        </p>
+        <p>
+          What I enjoyed was understanding the logic behind how these systems work. Database
+          normalization is a good example. It wasn't just a concept to memorize: I could see why
+          databases are designed that way, and how that design affects structure, correctness, and
+          performance.
+        </p>
+        <p>Somewhere in those years I realized I had picked the right field.</p>
+        <p class="aside-link"><a class="u always" href="/education">Education, with full coursework <span class="arrow" aria-hidden="true">→</span></a></p>
+      </div>
+    </section>
+
+    <section class="section chapter" id="ezee" aria-labelledby="ezee-h">
+      <div class="section-label">
+        <h2 id="ezee-h">Ezee.ai</h2>
+        <p class="note">Veefin / Ezee.ai, 2022 – 2025</p>
+      </div>
+      <div class="section-body story">
+        <p>At Ezee.ai, the things I had learned started connecting to real systems and real users.</p>
+        <p>
+          As I gained experience, I started designing features, working across web applications and
+          microservices, and making engineering decisions. Problem solving got much broader, and the
+          questions changed:
+        </p>
+        <ul class="questions">
+          <li>How should this feature be designed?</li>
+          <li>What architecture makes sense here?</li>
+          <li>How will it perform?</li>
+          <li>How does MongoDB work internally, and why does this query behave the way it does?</li>
+          <li>How can I optimize it?</li>
+          <li>What are the tradeoffs between these designs?</li>
+        </ul>
+        <p>
+          System design started to feel like problem solving from a different angle. Instead of one
+          algorithmic problem, I had a real problem to understand. I would study the existing system,
+          discuss the design with other engineers, make a decision, implement it, and see the effect
+          on real users.
+        </p>
+        <p class="detail">
+          One example: a batch pipeline that took 180 minutes. Working out how MongoDB was actually
+          executing it, then reworking the aggregations and indexes, adding caching, and switching to
+          bulk writes, brought it down to 20.
+        </p>
+        <p>
+          Ezee.ai also taught me things that weren't technical. I learned from my mistakes, from
+          working with teammates, and from discussing problems with senior engineers and executives.
+          I learned to take responsibility, and I saw how engineering decisions affect customers.
+        </p>
+      </div>
+    </section>
+
+    <section class="section chapter" id="nyu" aria-labelledby="nyu-h">
+      <div class="section-label">
+        <h2 id="nyu-h">NYU</h2>
+        <p class="note">MS Computer Science, Courant, 2025 – 2027</p>
+      </div>
+      <div class="section-body story">
+        <p>
+          After a few years of practical experience, I wanted to understand the foundations behind
+          the systems I was working with. So I came to NYU Courant for a master's, looking for
+          rigorous coursework. These are the courses that shaped it:
+        </p>
+        <dl class="rows courses">
+          {courses.map((c) => (
+            <div><dt>{c.name}</dt><dd>{c.why}</dd></div>
           ))}
         </dl>
+        <p>
+          Most of these are areas I had already met at work from a different angle. Here I got to go
+          underneath them.
+        </p>
+        <p>
+          I've also been reading the papers behind distributed data systems: MapReduce, Bigtable,
+          ZooKeeper, Kafka, Spark, Flink, and others. My notes on them are in
+          <a class="text-link" href="/notes">Systems notes</a>.
+        </p>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="cp-h">
+    <section class="section chapter" id="how" aria-labelledby="how-h">
       <div class="section-label">
-        <h2 id="cp-h">Competitive programming</h2>
+        <h2 id="how-h">How I like to work</h2>
       </div>
-      <div class="section-body">
+      <div class="section-body story">
+        <p>The way I like to approach engineering problems is fairly simple:</p>
+        <ol class="loop">
+          {loop.map((step) => <li>{step}</li>)}
+        </ol>
+        <p class="loop-note note">and then start again.</p>
+      </div>
+    </section>
+
+    <section class="section chapter" id="next" aria-labelledby="next-h">
+      <div class="section-label">
+        <h2 id="next-h">What's next</h2>
+      </div>
+      <div class="section-body story">
         <p>
-          I represented NYU at the ICPC North America Greater New York Regional in October 2025.
-          I'm rated 4 stars on CodeChef (max 1801) and practice regularly on Codeforces and
-          LeetCode. Graph problems and dynamic programming are my favorites.
+          Small problems or problems at much larger scale, I want to keep solving them for real
+          users. I want to keep learning, build stronger engineering judgment, and become an engineer
+          who contributes not only by writing code, but by understanding systems deeply and making
+          good design decisions.
         </p>
+        <p>
+          I'm looking for full-time software engineering roles in the US where I can keep growing in
+          this direction. If that sounds like your team, <a class="text-link" href={`mailto:${site.email}`}>email me</a>.
+        </p>
+        <SocialButtons />
       </div>
     </section>
   </div>
@@ -81,16 +248,80 @@ const papers = [
     max-width: 36rem;
     margin-bottom: 1.2em;
   }
-  .story-link {
-    display: inline-block;
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--rule);
-    text-decoration: none;
-    min-width: min(100%, 22rem);
+  .principles { margin: 2.25rem 0 2rem; max-width: 26rem; }
+  .principles pre {
+    margin: 0; padding: 1rem 1.25rem 1.05rem;
+    background: var(--panel); border-radius: 6px;
+    border-left: 2px solid var(--accent);
+    font-family: var(--mono); font-size: 0.8125rem; line-height: 1.75;
+    color: var(--ink); overflow-x: auto;
   }
-  .story-title { display: block; font-size: 1.0625rem; font-weight: 500; color: var(--accent); }
-  .story-sub { display: block; color: var(--muted); font-size: 0.9375rem; margin-top: 0.15rem; }
-  .story-link:hover .story-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
-  .intro-line { margin-bottom: 1.5rem; }
+  .principles :global(.ln) { display: inline-block; width: 2.25rem; color: var(--faint); user-select: none; }
+  .principles :global(.kw) { color: var(--muted); }
+  .principles :global(.str) { color: var(--accent); }
+  .about-text .chapters { margin-top: 2.5rem; }
+  .chapters-label { width: 100%; margin-bottom: 0.25rem; }
+  .aside-link { font-size: 0.9375rem !important; margin-top: 1.5rem; }
+  .story .social { margin-top: 1.5rem; }
+  .chapters {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem;
+    margin-top: 2.5rem; padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.9375rem;
+  }
+  .chapters a { color: var(--muted); }
+  .chapters a:hover { color: var(--ink); }
+
+  .story { max-width: 38rem; }
+  .story p { font-size: 1.125rem; line-height: 1.7; }
+
+  .questions {
+    list-style: none; margin: 0.25rem 0 1.6em; padding: 0.25rem 0 0.25rem 1.25rem;
+    border-left: 2px solid var(--accent);
+  }
+  .questions li {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1.1875rem, 1.1rem + 0.3vw, 1.3125rem); line-height: 1.4;
+    margin: 0 0 0.55rem;
+  }
+  .questions li:last-child { margin-bottom: 0; }
+
+  .story .detail {
+    font-size: 1rem; color: var(--muted);
+    background: var(--panel); border-radius: 6px; padding: 1rem 1.25rem;
+  }
+
+  .courses { margin: 0.5rem 0 1.6em; }
+  .courses > div { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); }
+  .courses dt { color: var(--ink); font-weight: 500; }
+  .courses dd { color: var(--muted); font-size: 0.9375rem; line-height: 1.75; }
+
+  .loop { list-style: none; margin: 0.75rem 0 0; padding: 0; counter-reset: step; position: relative; }
+  .loop::before {
+    content: ''; position: absolute; left: 0.875rem; top: 0.9rem; bottom: 0.9rem;
+    width: 1px; background: var(--rule);
+  }
+  .loop li {
+    counter-increment: step; position: relative;
+    display: flex; align-items: baseline; gap: 1rem;
+    padding: 0.4rem 0;
+    font-family: var(--serif); font-size: 1.25rem; line-height: 1.35;
+  }
+  .loop li::before {
+    content: counter(step);
+    flex: none; width: 1.75rem; height: 1.75rem;
+    display: inline-grid; place-items: center;
+    font-family: var(--sans); font-size: 0.75rem; color: var(--muted);
+    background: var(--bg); border: 1px solid var(--rule); border-radius: 50%;
+    position: relative; top: -0.15rem;
+  }
+  .loop li:last-child::before { border-color: var(--accent); color: var(--accent); }
+  .loop-note { margin: 0.5rem 0 1.75rem 2.75rem; }
+
+  @media (max-width: 46rem) {
+    .story p { font-size: 1.0625rem; }
+    .courses > div { grid-template-columns: minmax(0, 1fr); }
+    .loop li { font-size: 1.125rem; }
+  }
 </style>
+

@@ -1,6 +1,8 @@
 ---
 title: FlashAttention-3 on H100 GPUs
 short: FlashAttention-3
+kind: "GPU · Performance engineering"
+highlight: "2× throughput with FP8, 2.6× lower error with block quantization"
 summary: Eight CUTLASS 3.x attention kernels that isolate what each H100 feature is actually worth, plus FP8 inference with block quantization.
 context: NYU course project
 start: "2026-03"

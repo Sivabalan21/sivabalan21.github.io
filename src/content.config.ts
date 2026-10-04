@@ -6,6 +6,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     short: z.string(),
+    kind: z.string(),
+    highlight: z.string(),
     summary: z.string(),
     context: z.string(),
     // ISO months, e.g. "2026-03". `end` is inclusive.
@@ -33,4 +35,18 @@ const writing = defineCollection({
   }),
 });
 
-export const collections = { projects, writing };
+const notes = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
+  schema: z.object({
+    title: z.string(),
+    paper: z.string(),
+    authors: z.string(),
+    venue: z.string(),
+    theme: z.enum(['Batch processing', 'Storage and coordination', 'Logs and streams', 'The Spark stack']),
+    summary: z.string(),
+    order: z.number(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, writing, notes };

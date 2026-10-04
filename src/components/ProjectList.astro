@@ -13,7 +13,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
         <h3><Title text={p.data.title} /></h3>
         <span class="when">{p.data.period}</span>
         <div class="body">
+          <p class="kind">{p.data.kind}</p>
           <p class="summary">{p.data.summary}</p>
+          <p class="highlight">{p.data.highlight}</p>
           <p class="stack mono">{p.data.stack.join(' · ')}</p>
           <span class="more">View project <span class="arrow" aria-hidden="true">→</span></span>
         </div>

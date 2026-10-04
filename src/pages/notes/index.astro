@@ -1,0 +1,113 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { noteThemes } from '../../data/site';
+
+const notes = (await getCollection('notes'))
+  .filter((n) => !n.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const ideas = [
+  {
+    title: 'Deterministic work is cheap to recover',
+    body: 'MapReduce re-runs failed tasks. Spark recomputes lost partitions from lineage. Spark Streaming turns a stream into small deterministic jobs so it can recover the same way. ZooKeeper makes its transactions idempotent so replaying them is safe. If a step can be safely redone, you don\'t need to replicate its output.',
+    links: ['mapreduce', 'spark-rdd', 'spark-streaming', 'zookeeper'],
+  },
+  {
+    title: 'Immutability removes coordination',
+    body: 'Bigtable\'s SSTables never change, so reads need no locks and splitting a tablet is just sharing files. RDDs are immutable, so backup tasks can\'t interfere with each other and checkpoints don\'t pause the job. Kafka only ever appends.',
+    links: ['bigtable', 'spark-rdd', 'kafka'],
+  },
+  {
+    title: 'The log is the source of truth',
+    body: 'Bigtable and ZooKeeper write a log before applying changes in memory. Kafka makes the log the product itself, with consumers tracking their own offsets. Flink\'s exactly-once state depends on being able to rewind a log like Kafka to a snapshot\'s position.',
+    links: ['bigtable', 'zookeeper', 'kafka', 'flink'],
+  },
+  {
+    title: 'Don\'t move data you won\'t use',
+    body: 'MapReduce schedules work next to its input. Hive prunes partitions and columns. Spark SQL pushes filters and projections into data sources. GraphX removes joins when a function never reads a vertex property. Most performance work in these systems is about avoiding data movement.',
+    links: ['mapreduce', 'hive', 'spark-sql', 'graphx'],
+  },
+  {
+    title: 'Coordination as a separate service',
+    body: 'Bigtable keeps its master election and tablet locations in Chubby. Kafka keeps membership and offsets in ZooKeeper. Small, critical state goes in a strongly consistent service, and the data path stays out of it.',
+    links: ['bigtable', 'zookeeper', 'kafka'],
+  },
+];
+const byId = Object.fromEntries(notes.map((n) => [n.id, n]));
+---
+<Base title="Systems Notes" description="Notes on the papers behind big data and distributed systems: MapReduce, Bigtable, ZooKeeper, Hive, Kafka, Spark, Spark SQL, Spark Streaming, MLlib, GraphX, and Flink.">
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Systems notes</h1>
+      <p class="lede">
+        Notes on the papers behind big data and distributed systems. For each one: the problem it
+        was built for, how it works, the design decisions and their tradeoffs, and how it connects
+        to the others.
+      </p>
+    </header>
+
+    <section class="section" aria-labelledby="ideas-h">
+      <div class="section-label">
+        <h2 id="ideas-h">Ideas that keep coming back</h2>
+        <p class="note">Reading these together, the same few ideas show up again and again.</p>
+      </div>
+      <div class="section-body">
+        <ol class="ideas">
+          {ideas.map((i) => (
+            <li>
+              <h3>{i.title}</h3>
+              <p>{i.body}</p>
+              <p class="idea-links">
+                {i.links.filter((l) => byId[l]).map((l) => <a class="u always" href={`/notes/${l}`}>{byId[l].data.title}</a>)}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    {noteThemes.map((t) => (
+      <section class="section" aria-label={t}>
+        <div class="section-label"><h2>{t}</h2></div>
+        <div class="section-body">
+          <ul class="note-list">
+            {notes.filter((n) => n.data.theme === t).map((n) => (
+              <li>
+                <a class="note-row" href={`/notes/${n.id}`}>
+                  <h3>{n.data.title}</h3>
+                  <span class="venue">{n.data.venue}</span>
+                  <p>{n.data.summary}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .ideas { list-style: none; margin: 0; padding: 0; counter-reset: idea; }
+  .ideas li { padding: 1.5rem 0; border-top: 1px solid var(--rule); }
+  .ideas li:first-child { padding-top: 0.25rem; border-top: 0; }
+  .ideas h3 { font-size: 1.3125rem; margin-bottom: 0.5rem; }
+  .ideas p { margin: 0; max-width: 38rem; }
+  .idea-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin-top: 0.75rem !important; font-size: 0.875rem; }
+  .idea-links a { color: var(--muted); }
+  .idea-links a:hover { color: var(--ink); }
+
+  .note-list { list-style: none; margin: 0; padding: 0; }
+  .note-list li + li { border-top: 1px solid var(--rule); }
+  .note-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 2rem; padding: 1.25rem 0; text-decoration: none; }
+  .note-list li:first-child .note-row { padding-top: 0.25rem; }
+  .note-row h3 { font-size: 1.375rem; transition: transform 0.25s var(--ease); }
+  .note-row:hover h3 { transform: translateX(4px); }
+  .note-row .venue { color: var(--muted); font-size: 0.875rem; white-space: nowrap; line-height: 2.2; }
+  .note-row p { grid-column: 1 / -1; margin: 0.35rem 0 0; max-width: 36rem; color: var(--ink); }
+  @media (max-width: 46rem) {
+    .note-row { grid-template-columns: minmax(0, 1fr); }
+    .note-row .venue { line-height: 1.6; }
+  }
+</style>

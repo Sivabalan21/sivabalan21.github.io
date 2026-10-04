@@ -1,6 +1,8 @@
 ---
 title: E-Commerce Recommendation Platform
 short: Recommendations
+kind: "Distributed data · ML systems"
+highlight: "75M+ reviews, streaming ingestion, served on Ray Serve"
 summary: Collaborative filtering on 75M+ Amazon reviews, with streaming order ingestion and a model served behind a REST API.
 context: NYU course project
 start: "2026-04"

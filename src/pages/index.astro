@@ -1,13 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProjectList from '../components/ProjectList.astro';
-import Metrics from '../components/Metrics.astro';
+import Scopes from '../components/Scopes.astro';
 import Logo from '../components/Logo.astro';
+import SocialButtons from '../components/SocialButtons.astro';
 import { getCollection } from 'astro:content';
-import { site, currently } from '../data/site';
+import { site, noteThemes, highlights } from '../data/site';
 
 const projects = (await getCollection('projects'))
   .filter((p) => !p.data.draft)
+  .sort((a, b) => a.data.order - b.data.order);
+const notes = (await getCollection('notes'))
+  .filter((n) => !n.data.draft)
   .sort((a, b) => a.data.order - b.data.order);
 const posts = (await getCollection('writing'))
   .filter((p) => !p.data.draft)
@@ -17,18 +21,55 @@ const posts = (await getCollection('writing'))
 <Base>
   <div class="wrap">
     <section class="hero">
-      <p class="hello reveal" style="--i:0">Hello, I'm Siva.</p>
-      <h1 class="reveal" style="--i:1">Software engineer building backend systems and AI infrastructure.</h1>
-      <p class="lede reveal" style="--i:2">
-        I'm an MS Computer Science student at NYU Courant. Before that, I spent three years
-        building production backend systems for financial institutions. Now I work across
-        backend and distributed systems, LLMs, and GPU programming.
+      <h1 class="reveal" style="--i:0">
+        I’m Siva, a software engineer with 3+ years of experience building production backend
+        systems, and an MS CS student at NYU Courant.
+      </h1>
+      <p class="lede reveal" style="--i:1">
+        At Ezee.ai I designed and built backend services, APIs, and data pipelines for lending
+        software used by financial institutions, from feature design through releases and
+        production issues. I also build applied AI systems, work with distributed data systems,
+        and go deep into ML and GPU performance when a problem calls for it.
       </p>
-      <div class="links reveal" style="--i:3">
-        <a class="u always" href="#work">Projects</a>
-        <a class="u always" href={site.resume}>Resume</a>
-        <a class="u always" href={site.github}>GitHub</a>
-        <a class="u always" href={site.linkedin}>LinkedIn</a>
+      <p class="looking reveal" style="--i:2">
+        Looking for full-time roles from May 2027: software engineering, backend and distributed
+        systems, applied AI and ML, forward deployed, and quantitative software engineering.
+      </p>
+      <div class="hero-actions reveal" style="--i:3">
+        <div class="links">
+          <a class="u always" href="/projects">Projects</a>
+          <a class="u always" href="/experience">Experience</a>
+          <a class="u always" href={site.resume}>Resume</a>
+        </div>
+        <SocialButtons />
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="exp-h">
+      <div class="section-label">
+        <h2 id="exp-h">Experience</h2>
+        <p class="note">Production work, 2022 — 2025.</p>
+      </div>
+      <div class="section-body">
+        <article class="entry wide">
+          <div class="years">2022 — 2025</div>
+          <div>
+            <div class="org">
+              <Logo name="ezee" alt="" />
+              <h3>Veefin / Ezee.ai</h3>
+            </div>
+            <p class="role-line">Backend intern, then member of technical staff</p>
+            <p>
+              I worked across much of the lending platform: backend services and microservices,
+              REST APIs, databases and caching, event-driven integrations, reusable platform
+              services, and enterprise features built with client teams. I designed features end
+              to end, handled releases and production incidents, reviewed code, mentored junior
+              engineers, and built AI features.
+            </p>
+            <Scopes compact />
+            <a class="u always" href="/experience">Full experience, including the pipeline rework and a production incident <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -42,73 +83,72 @@ const posts = (await getCollection('writing'))
       </div>
     </section>
 
-    <section class="section" aria-labelledby="exp-h">
+    <section class="section" aria-labelledby="notes-h">
       <div class="section-label">
-        <h2 id="exp-h">Experience</h2>
-        <p class="note">Before NYU.</p>
+        <h2 id="notes-h">Systems notes</h2>
+        <p class="note">From reading the papers.</p>
       </div>
       <div class="section-body">
-        <article class="entry">
-          <div class="years">2022 — 2025</div>
-          <div>
-            <div class="org">
-              <Logo name="ezee" alt="" />
-              <h3>Veefin / Ezee.ai</h3>
-            </div>
-            <p class="role-line">Intern, then member of technical staff. Lending software for financial institutions.</p>
-            <p>
-              I owned the performance management platform, designed shared services used across the
-              product, and worked directly with client teams on enterprise features. A lot of my work
-              was making MongoDB-backed services faster.
-            </p>
-            <Metrics />
-            <a class="u always" href="/experience">Full experience <span class="arrow" aria-hidden="true">→</span></a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="now-h">
-      <div class="section-label">
-        <h2 id="now-h">Currently</h2>
-        <p class="note">As of fall 2026.</p>
-      </div>
-      <div class="section-body">
+        <p class="notes-intro">
+          Notes on the papers behind big data and distributed systems: what each system solves,
+          how it works, and which ideas keep showing up across them.
+        </p>
         <dl class="rows">
-          {currently.map((c) => (
-            <div><dt>{c.label}</dt><dd>{c.value}</dd></div>
+          {noteThemes.map((t) => (
+            <div>
+              <dt>{t}</dt>
+              <dd class="note-links">
+                {notes.filter((n) => n.data.theme === t).map((n) => (
+                  <a class="u" href={`/notes/${n.id}`}>{n.data.title}</a>
+                ))}
+              </dd>
+            </div>
           ))}
         </dl>
+        <p class="more-line"><a class="u always" href="/notes">All systems notes <span class="arrow" aria-hidden="true">→</span></a></p>
       </div>
     </section>
 
     {posts.length > 0 && (
-      <section class="section" aria-labelledby="notes-h">
-        <div class="section-label">
-          <h2 id="notes-h">Notes</h2>
-        </div>
+      <section class="section" aria-labelledby="writing-h">
+        <div class="section-label"><h2 id="writing-h">Writing</h2></div>
         <div class="section-body">
           <dl class="rows">
             {posts.map((p) => (
-              <div>
-                <dt>{p.data.category}</dt>
-                <dd><a class="u" href={`/writing/${p.id}`}>{p.data.title}</a></dd>
-              </div>
+              <div><dt>{p.data.category}</dt><dd><a class="u" href={`/writing/${p.id}`}>{p.data.title}</a></dd></div>
             ))}
           </dl>
         </div>
       </section>
     )}
 
-    <section class="section" aria-labelledby="contact-h">
+    <section class="section" aria-labelledby="hl-h">
       <div class="section-label">
-        <h2 id="contact-h">Contact</h2>
+        <h2 id="hl-h">Highlights</h2>
       </div>
+      <div class="section-body">
+        <dl class="rows hl">
+          {highlights.map((h) => (
+            <div><dt>{h.date}</dt><dd>{h.text}</dd></div>
+          ))}
+        </dl>
+        <p class="more-line">
+          <a class="u always" href="/achievements">Achievements <span class="arrow" aria-hidden="true">→</span></a>
+        </p>
+        <p class="edu-line">
+          <span class="muted">Education</span>
+          MS in Computer Science, NYU Courant (May 2027). B.Tech in Computer Science and Engineering, Amrita Vishwa Vidyapeetham (2022).
+          <a class="u always" href="/education">Education <span class="arrow" aria-hidden="true">→</span></a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="contact-h">
+      <div class="section-label"><h2 id="contact-h">Contact</h2></div>
       <div class="section-body">
         <p class="contact-line">
           The best way to reach me is email:
-          <a class="text-link" href={`mailto:${site.email}`}>{site.email}</a>.
-          I'm open to full-time roles starting after May 2027.
+          <a class="text-link" href={`mailto:${site.email}`}>{site.email}</a>
         </p>
       </div>
     </section>
@@ -116,6 +156,24 @@ const posts = (await getCollection('writing'))
 </Base>
 
 <style>
+  .hero h1 {
+    max-width: 30ch;
+    font-size: clamp(1.875rem, 1.35rem + 1.9vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .looking { max-width: 36rem; color: var(--muted); font-size: 0.9375rem; margin-top: 1.25rem; }
+  .notes-intro { max-width: 36rem; margin-bottom: 1.5rem; }
+  .note-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+  .more-line { margin-top: 1.5rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 2.25rem; }
+  .hero-actions .links { margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; font-size: 0.9375rem; }
+  .hl > div { grid-template-columns: 5rem minmax(0, 1fr); }
+  .edu-line { margin-top: 2.25rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); max-width: 38rem; font-size: 0.9375rem; }
+  .edu-line .muted { display: block; margin-bottom: 0.2rem; }
+  .edu-line a { white-space: nowrap; }
+  .contact-actions { margin-top: 1.5rem; }
+  @media (max-width: 46rem) { .hl > div { grid-template-columns: minmax(0, 1fr); } }
   .contact-line { font-family: var(--serif); font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem); line-height: 1.35; max-width: 34rem; margin: 0; }
   .contact-line a { overflow-wrap: anywhere; }
 </style>

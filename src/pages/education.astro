@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import { education } from '../data/site';
+const { amrita, nyu } = education;
+const amritaCount = amrita.groups.reduce((n, g) => n + g.courses.length, 0);
+---
+<Base title="Education" description="Education: B.Tech in Computer Science and Engineering at Amrita Vishwa Vidyapeetham, then an MS in Computer Science at NYU Courant.">
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Education</h1>
+      <p class="lede">
+        Where I learned the fundamentals, then went back to them with production experience
+        behind me.
+      </p>
+    </header>
+
+    <section class="section" aria-label="Education timeline">
+      <div class="section-label">
+        <p class="note">Amrita, then three years of work, then NYU.</p>
+      </div>
+      <div class="section-body">
+        <ol class="timeline">
+          <li class="stop">
+            <span class="dot" aria-hidden="true"></span>
+            <p class="when">{amrita.dates}</p>
+            <div class="school">
+              <Logo name="amrita" alt="" />
+              <h2>{amrita.school}</h2>
+            </div>
+            <p class="degree">{amrita.degree}</p>
+            <p class="campus">{amrita.campus}</p>
+            <p class="story-line">
+              Data structures, algorithms, databases, operating systems, and networks. This is where
+              I started caring about why systems are designed the way they are, not just how to use
+              them.
+            </p>
+            <p class="featured">
+              <span class="label">Core courses</span>
+              {amrita.featured.join(', ')}
+            </p>
+            <details class="all">
+              <summary>All {amritaCount} computer science courses</summary>
+              <dl class="groups">
+                {amrita.groups.map((g) => (
+                  <div><dt>{g.area}</dt><dd>{g.courses.join(', ')}</dd></div>
+                ))}
+              </dl>
+            </details>
+          </li>
+
+          <li class="stop between">
+            <span class="dot" aria-hidden="true"></span>
+            <p class="when">2022 – 2025</p>
+            <p class="between-text">
+              Three years building production backend systems at Ezee.ai, where the fundamentals turned
+              into real engineering problems. <a class="u always" href="/experience">Experience <span class="arrow" aria-hidden="true">→</span></a>
+            </p>
+          </li>
+
+          <li class="stop">
+            <span class="dot current" aria-hidden="true"></span>
+            <p class="when">{nyu.dates}</p>
+            <div class="school">
+              <Logo name="nyu" alt="" />
+              <h2>{nyu.school}</h2>
+            </div>
+            <p class="degree">{nyu.degree} <span class="gpa">GPA {nyu.gpa}</span></p>
+            <p class="campus">{nyu.campus}</p>
+            <p class="story-line">
+              Back to the foundations, with the systems I'd worked on in mind: algorithms and
+              languages, distributed data systems, machine learning, and how computation runs on GPUs.
+            </p>
+            <dl class="groups">
+              {nyu.groups.map((g) => (
+                <div><dt>{g.area}</dt><dd>{g.courses.join(', ')}</dd></div>
+              ))}
+            </dl>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .stop { position: relative; padding: 0 0 3.5rem 2.25rem; }
+  .stop:last-child { padding-bottom: 0; }
+  .stop:not(:last-child)::before { content: ''; position: absolute; left: 5px; top: 0.9rem; bottom: -0.4rem; width: 1px; background: var(--rule); }
+  .dot { position: absolute; left: 0; top: 0.4rem; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 1px solid var(--ink); }
+  .dot.current { background: var(--accent); border-color: var(--accent); }
+  .between .dot { width: 7px; height: 7px; left: 2px; top: 0.5rem; border-color: var(--faint); }
+
+  .when { margin: 0 0 0.5rem; color: var(--muted); font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .school { display: flex; align-items: center; gap: 0.7rem; }
+  .school img { width: 26px; height: 26px; object-fit: contain; opacity: 0.85; }
+  .school h2 { font-size: clamp(1.5rem, 1.3rem + 0.7vw, 1.875rem); }
+  .degree { margin: 0.45rem 0 0; font-size: 1.0625rem; }
+  .gpa { color: var(--muted); font-size: 0.9375rem; margin-left: 0.5rem; padding-left: 0.6rem; border-left: 1px solid var(--rule); }
+  .campus { margin: 0.1rem 0 0; color: var(--muted); font-size: 0.9375rem; }
+  .story-line { margin: 1.1rem 0 1.25rem; max-width: 38rem; font-family: var(--serif); font-size: 1.1875rem; line-height: 1.5; }
+
+  .featured { margin: 0 0 0.75rem; max-width: 40rem; }
+  .label { display: block; color: var(--muted); font-size: 0.875rem; margin-bottom: 0.15rem; }
+
+  .groups { margin: 0; max-width: 40rem; }
+  .groups > div { display: grid; grid-template-columns: 11rem minmax(0, 1fr); column-gap: 1.25rem; padding: 0.7rem 0; border-top: 1px solid var(--rule); font-size: 0.9375rem; }
+  .groups > div:last-child { border-bottom: 1px solid var(--rule); }
+  .groups dt { color: var(--muted); }
+  .groups dd { margin: 0; }
+
+  .all summary { cursor: pointer; color: var(--accent); font-size: 0.9375rem; list-style: none; display: inline-flex; gap: 0.4rem; align-items: baseline; }
+  .all summary::-webkit-details-marker { display: none; }
+  .all summary::after { content: '+'; color: var(--muted); }
+  .all[open] summary::after { content: '−'; }
+  .all[open] summary { margin-bottom: 0.9rem; }
+
+  .between-text { margin: 0; max-width: 34rem; color: var(--muted); font-size: 0.9375rem; }
+
+  @media (max-width: 46rem) {
+    .groups > div { grid-template-columns: minmax(0, 1fr); row-gap: 0.15rem; }
+    .stop { padding-left: 1.75rem; }
+  }
+</style>
