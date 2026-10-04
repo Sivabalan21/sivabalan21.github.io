@@ -1,0 +1,17 @@
+---
+import Flow from '../Flow.astro';
+---
+<figure class="figure">
+  <div class="diagram">
+    <Flow
+      stages={[
+        { title: 'File I/O request', items: ['IRP_MJ_WRITE', 'IRP_MJ_CLOSE'] },
+        { title: 'Filter Manager', items: ['minifilter at its altitude', 'pre/post callbacks'] },
+        { title: 'Pre-write', items: ['fuzzy hash of the content'] },
+        { title: 'Post-write', items: ['Shannon entropy of the result'] },
+        { title: 'Verdict', items: ['encryption-like change?', 'block malicious writes in the kernel'] },
+      ]}
+    />
+  </div>
+  <figcaption class="note">Simplified detection path. Everything runs in the kernel, between the application and the file system.</figcaption>
+</figure>

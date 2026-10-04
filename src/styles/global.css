@@ -196,7 +196,7 @@ a:hover .arrow, a:focus-visible .arrow { transform: translateX(3px); }
 .project .kind { margin: 0.35rem 0 0; font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 1rem; }
 .project .summary { margin: 0.6rem 0 0; max-width: 36rem; }
 .project .highlight { margin: 0.5rem 0 0; font-size: 0.9375rem; max-width: 36rem; }
-.project .highlight::before { content: ''; display: inline-block; width: 0.9rem; height: 1px; background: var(--accent); vertical-align: middle; margin-right: 0.5rem; }
+.project .highlight { color: var(--accent); }
 .project .stack { color: var(--muted); margin: 0.75rem 0 0; }
 .project .more { display: inline-block; margin-top: 1rem; font-size: 0.9375rem; color: var(--accent); }
 .project:hover h3, .project:focus-visible h3 { transform: translateX(4px); }
@@ -228,7 +228,7 @@ a:hover .arrow, a:focus-visible .arrow { transform: translateX(3px); }
 .aside h4 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.125rem; margin: 0 0 0.4rem; color: var(--ink); }
 .aside p { margin: 0; color: var(--ink); }
 
-/* ---------- Definition rows (Currently, skills) ---------- */
+/* ---------- Definition rows ---------- */
 .rows { margin: 0; }
 .rows > div { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: 1.5rem; padding-block: 0.9rem; border-top: 1px solid var(--rule); }
 .rows > div:last-child { border-bottom: 1px solid var(--rule); }
@@ -243,7 +243,7 @@ a:hover .arrow, a:focus-visible .arrow { transform: translateX(3px); }
 
 /* ---------- Case study ---------- */
 .meta {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 2rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem 2rem;
   margin: 2.5rem 0 0; padding-top: 1.25rem; border-top: 1px solid var(--rule);
   max-width: 52rem;
 }

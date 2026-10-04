@@ -4,72 +4,60 @@ import ProjectList from '../components/ProjectList.astro';
 import Scopes from '../components/Scopes.astro';
 import Logo from '../components/Logo.astro';
 import SocialButtons from '../components/SocialButtons.astro';
+import EducationSummary from '../components/EducationSummary.astro';
 import { getCollection } from 'astro:content';
-import { site, noteThemes, highlights } from '../data/site';
+import { site, highlights, skillGroups, toolGroups } from '../data/site';
+import Chips from '../components/Chips.astro';
 
 const projects = (await getCollection('projects'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => a.data.order - b.data.order);
-const notes = (await getCollection('notes'))
-  .filter((n) => !n.data.draft)
-  .sort((a, b) => a.data.order - b.data.order);
-const posts = (await getCollection('writing'))
-  .filter((p) => !p.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+
+const toolChips = toolGroups.map((g) => ({ group: g.group, items: g.tools.map((t) => ({ name: t.name, icon: t.icon })) }));
+
+const areas = [
+  'Debt collection management',
+  'Performance management',
+  'Nearly 200 REST APIs',
+  'Backend services and microservices',
+  'Access management, notifications, approval workflows',
+  'Database design and optimization',
+  'Redis caching',
+  'Kafka and event-driven systems',
+  'Batch pipelines',
+  'Enterprise features and client requirements',
+  'System design',
+  'Releases and production debugging',
+  'Mentoring and code review',
+  'AI-powered features',
+];
 ---
 <Base>
   <div class="wrap">
     <section class="hero">
-      <h1 class="reveal" style="--i:0">
-        I’m Siva, a software engineer with 3+ years of experience building production backend
-        systems, and an MS CS student at NYU Courant.
+      <p class="hello reveal" style="--i:0">Hello, I’m Siva.</p>
+      <h1 class="statement reveal" style="--i:1">
+        I’m a software engineer with 3+ years of experience building production backend systems
+        for debt collection software at Ezee.ai, and an MS CS student at NYU Courant.
       </h1>
-      <p class="lede reveal" style="--i:1">
-        At Ezee.ai I designed and built backend services, APIs, and data pipelines for lending
-        software used by financial institutions, from feature design through releases and
-        production issues. I also build applied AI systems, work with distributed data systems,
-        and go deep into ML and GPU performance when a problem calls for it.
+      <p class="story reveal" style="--i:2">
+        I got into computer science through problem solving: not just getting the answer, but
+        understanding why an algorithm works and how it solves a problem efficiently. At NYU I’ve
+        been going deeper into distributed systems, machine learning, LLMs, and GPU programming.
+        <a class="u always" href="/story">My story <span class="arrow" aria-hidden="true">→</span></a>
       </p>
-      <p class="looking reveal" style="--i:2">
-        Looking for full-time roles from May 2027: software engineering, backend and distributed
-        systems, applied AI and ML, forward deployed, and quantitative software engineering.
+      <p class="looking reveal" style="--i:3">
+        Open to full-time roles from May 2027 across software engineering, applied AI and ML,
+        AI and ML engineering, forward deployed engineering, quantitative software engineering, and
+        related roles.
       </p>
-      <div class="hero-actions reveal" style="--i:3">
+      <div class="hero-actions reveal" style="--i:4">
         <div class="links">
           <a class="u always" href="/projects">Projects</a>
           <a class="u always" href="/experience">Experience</a>
           <a class="u always" href={site.resume}>Resume</a>
         </div>
         <SocialButtons />
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="exp-h">
-      <div class="section-label">
-        <h2 id="exp-h">Experience</h2>
-        <p class="note">Production work, 2022 — 2025.</p>
-      </div>
-      <div class="section-body">
-        <article class="entry wide">
-          <div class="years">2022 — 2025</div>
-          <div>
-            <div class="org">
-              <Logo name="ezee" alt="" />
-              <h3>Veefin / Ezee.ai</h3>
-            </div>
-            <p class="role-line">Backend intern, then member of technical staff</p>
-            <p>
-              I worked across much of the lending platform: backend services and microservices,
-              REST APIs, databases and caching, event-driven integrations, reusable platform
-              services, and enterprise features built with client teams. I designed features end
-              to end, handled releases and production incidents, reviewed code, mentored junior
-              engineers, and built AI features.
-            </p>
-            <Scopes compact />
-            <a class="u always" href="/experience">Full experience, including the pipeline rework and a production incident <span class="arrow" aria-hidden="true">→</span></a>
-          </div>
-        </article>
       </div>
     </section>
 
@@ -83,48 +71,73 @@ const posts = (await getCollection('writing'))
       </div>
     </section>
 
-    <section class="section" aria-labelledby="notes-h">
+    <section class="section" aria-labelledby="exp-h">
       <div class="section-label">
-        <h2 id="notes-h">Systems notes</h2>
-        <p class="note">From reading the papers.</p>
+        <h2 id="exp-h">Experience</h2>
       </div>
       <div class="section-body">
-        <p class="notes-intro">
-          Notes on the papers behind big data and distributed systems: what each system solves,
-          how it works, and which ideas keep showing up across them.
-        </p>
-        <dl class="rows">
-          {noteThemes.map((t) => (
-            <div>
-              <dt>{t}</dt>
-              <dd class="note-links">
-                {notes.filter((n) => n.data.theme === t).map((n) => (
-                  <a class="u" href={`/notes/${n.id}`}>{n.data.title}</a>
-                ))}
-              </dd>
+        <article class="entry wide">
+          <div>
+            <div class="org">
+              <Logo name="ezee" alt="" />
+              <h3>Ezee.ai</h3>
             </div>
-          ))}
-        </dl>
-        <p class="more-line"><a class="u always" href="/notes">All systems notes <span class="arrow" aria-hidden="true">→</span></a></p>
+            <dl class="roles">
+              <div><dt>Member of technical staff</dt><dd><span class="role-type">Full time</span> Jun 2022 – Jul 2025</dd></div>
+              <div><dt>Backend development intern</dt><dd><span class="role-type">Internship</span> Feb 2022 – May 2022</dd></div>
+            </dl>
+            <p>
+              Ezee.ai builds debt collection platforms used by financial institutions. Over three
+              years I designed, coded, and shipped across a large part of that product, from feature
+              design and backend architecture to releases, production issues, and work with client
+              teams.
+            </p>
+            <ul class="areas-list">
+              {areas.map((a) => <li>{a}</li>)}
+            </ul>
+            <Scopes compact />
+            <p class="exp-more">
+              <a class="u always" href="/experience">Full experience <span class="arrow" aria-hidden="true">→</span></a>
+              <span class="muted">including the 180 → 20 minute pipeline rework and a production incident</span>
+            </p>
+          </div>
+        </article>
       </div>
     </section>
 
-    {posts.length > 0 && (
-      <section class="section" aria-labelledby="writing-h">
-        <div class="section-label"><h2 id="writing-h">Writing</h2></div>
-        <div class="section-body">
-          <dl class="rows">
-            {posts.map((p) => (
-              <div><dt>{p.data.category}</dt><dd><a class="u" href={`/writing/${p.id}`}>{p.data.title}</a></dd></div>
-            ))}
-          </dl>
-        </div>
-      </section>
-    )}
-
-    <section class="section" aria-labelledby="hl-h">
+    <section class="section" aria-labelledby="skills-h">
       <div class="section-label">
-        <h2 id="hl-h">Highlights</h2>
+        <h2 id="skills-h">Skills</h2>
+        <p class="note">What I work with.</p>
+      </div>
+      <div class="section-body">
+        <Chips groups={skillGroups} />
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="tools-h">
+      <div class="section-label">
+        <h2 id="tools-h">Tools</h2>
+        <p class="note"><a class="u always" href="/experience#tools">What each is for <span class="arrow" aria-hidden="true">→</span></a></p>
+      </div>
+      <div class="section-body">
+        <Chips groups={toolChips} />
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="edu-h">
+      <div class="section-label">
+        <h2 id="edu-h">Education</h2>
+        <p class="note"><a class="u always" href="/education">Full timeline <span class="arrow" aria-hidden="true">→</span></a></p>
+      </div>
+      <div class="section-body">
+        <EducationSummary />
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="ach-h">
+      <div class="section-label">
+        <h2 id="ach-h">Achievements</h2>
       </div>
       <div class="section-body">
         <dl class="rows hl">
@@ -132,14 +145,7 @@ const posts = (await getCollection('writing'))
             <div><dt>{h.date}</dt><dd>{h.text}</dd></div>
           ))}
         </dl>
-        <p class="more-line">
-          <a class="u always" href="/achievements">Achievements <span class="arrow" aria-hidden="true">→</span></a>
-        </p>
-        <p class="edu-line">
-          <span class="muted">Education</span>
-          MS in Computer Science, NYU Courant (May 2027). B.Tech in Computer Science and Engineering, Amrita Vishwa Vidyapeetham (2022).
-          <a class="u always" href="/education">Education <span class="arrow" aria-hidden="true">→</span></a>
-        </p>
+        <p class="more-line"><a class="u always" href="/achievements">All achievements <span class="arrow" aria-hidden="true">→</span></a></p>
       </div>
     </section>
 
@@ -156,24 +162,45 @@ const posts = (await getCollection('writing'))
 </Base>
 
 <style>
-  .hero h1 {
-    max-width: 30ch;
-    font-size: clamp(1.875rem, 1.35rem + 1.9vw, 2.75rem);
-    line-height: 1.15;
-    letter-spacing: -0.015em;
+  .hero .hello {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+    color: var(--muted); margin: 0 0 1.25rem;
   }
-  .looking { max-width: 36rem; color: var(--muted); font-size: 0.9375rem; margin-top: 1.25rem; }
-  .notes-intro { max-width: 36rem; margin-bottom: 1.5rem; }
-  .note-links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
-  .more-line { margin-top: 1.5rem; }
-  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 2.25rem; }
-  .hero-actions .links { margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; font-size: 0.9375rem; }
+  .hero .statement {
+    max-width: 30ch;
+    font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+    line-height: 1.2; letter-spacing: -0.015em;
+  }
+  .hero .story { max-width: 38rem; font-size: 1.125rem; margin: 1.75rem 0 0; }
+  .hero .story a { white-space: nowrap; }
+  .looking { max-width: 38rem; color: var(--muted); font-size: 0.9375rem; margin-top: 1.75rem; }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 2rem; }
+  .hero-actions .links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; font-size: 0.9375rem; margin-top: 0; }
+
+  .areas-list {
+    list-style: none; margin: 1.25rem 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem 2rem;
+    font-size: 0.9375rem;
+  }
+  .areas-list li { padding-left: 1rem; position: relative; }
+  .areas-list li::before { content: ''; position: absolute; left: 0.1rem; top: 0.62em; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  .roles { margin: 0.75rem 0 1.25rem; }
+  .roles > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding: 0.55rem 0; border-top: 1px solid var(--rule); }
+  .roles > div:last-child { border-bottom: 1px solid var(--rule); }
+  .roles dt { font-weight: 500; }
+  .roles dd { margin: 0; color: var(--muted); font-size: 0.9375rem; font-variant-numeric: tabular-nums; display: flex; gap: 0.75rem; align-items: baseline; }
+  .role-type { font-size: 0.8125rem; color: var(--accent); border: 1px solid var(--rule); border-radius: 4px; padding: 0.05rem 0.45rem; }
+  .exp-more { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; align-items: baseline; font-size: 0.9375rem; }
+  .exp-more .muted { font-size: 0.875rem; }
+
   .hl > div { grid-template-columns: 5rem minmax(0, 1fr); }
-  .edu-line { margin-top: 2.25rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); max-width: 38rem; font-size: 0.9375rem; }
-  .edu-line .muted { display: block; margin-bottom: 0.2rem; }
-  .edu-line a { white-space: nowrap; }
-  .contact-actions { margin-top: 1.5rem; }
-  @media (max-width: 46rem) { .hl > div { grid-template-columns: minmax(0, 1fr); } }
+  .more-line { margin-top: 1.5rem; }
   .contact-line { font-family: var(--serif); font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem); line-height: 1.35; max-width: 34rem; margin: 0; }
   .contact-line a { overflow-wrap: anywhere; }
+
+  @media (max-width: 46rem) {
+    .areas-list { grid-template-columns: minmax(0, 1fr); }
+    .hl > div { grid-template-columns: minmax(0, 1fr); }
+  }
 </style>

@@ -1,0 +1,25 @@
+---
+import Flow from '../Flow.astro';
+---
+<figure class="figure">
+  <div class="diagram">
+    <Flow
+      label="Application"
+      stages={[
+        { title: 'Portal', items: ['elective onboarding', 'faculty assignment', 'optimized allocation'] },
+        { title: 'Backend', items: ['Node.js, Express'] },
+        { title: 'Database', items: ['MySQL on AWS RDS'] },
+      ]}
+    />
+    <Flow
+      label="Delivery"
+      stages={[
+        { title: 'Source', items: ['GitLab'] },
+        { title: 'CI/CD', items: ['Jenkins'] },
+        { title: 'Containers', items: ['Docker'] },
+        { title: 'Hosting', items: ['GCP'] },
+      ]}
+    />
+  </div>
+  <figcaption class="note">Simplified architecture and delivery path.</figcaption>
+</figure>

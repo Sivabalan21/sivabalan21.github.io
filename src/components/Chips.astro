@@ -1,0 +1,44 @@
+---
+// Rows of small icon + name chips. Used for skills (and tools on the homepage).
+import { toolIcons } from '../data/toolIcons';
+interface Item { name: string; icon?: string }
+interface Props { groups: { group: string; items: Item[] }[] }
+const { groups } = Astro.props;
+---
+<dl class="chip-rows">
+  {groups.map((g) => (
+    <div>
+      <dt>{g.group}</dt>
+      <dd>
+        <ul class="chips">
+          {g.items.map((i) => (
+            <li class="chip">
+              {i.icon && toolIcons[i.icon] && <span class="chip-icon" set:html={toolIcons[i.icon]} />}
+              <span>{i.name}</span>
+            </li>
+          ))}
+        </ul>
+      </dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .chip-rows { margin: 0; }
+  .chip-rows > div { display: grid; grid-template-columns: 10rem minmax(0, 1fr); column-gap: 1.5rem; padding: 0.85rem 0; border-top: 1px solid var(--rule); }
+  .chip-rows > div:last-child { border-bottom: 1px solid var(--rule); }
+  .chip-rows dt { color: var(--muted); font-size: 0.9375rem; line-height: 1.9; }
+  .chip-rows dd { margin: 0; }
+  .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.2rem 0.6rem; border: 1px solid var(--rule); border-radius: 4px;
+    font-size: 0.875rem; line-height: 1.5; background: var(--bg);
+  }
+  .chip-icon { display: inline-flex; width: 0.95rem; height: 0.95rem; color: var(--ink); opacity: 0.75; }
+  .chip-icon :global(svg) { width: 100%; height: 100%; }
+  @media (max-width: 46rem) {
+    .chip-rows > div { grid-template-columns: minmax(0, 1fr); row-gap: 0.45rem; }
+    .chip-rows dt { line-height: 1.5; }
+  }
+</style>

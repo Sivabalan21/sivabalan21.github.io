@@ -16,7 +16,7 @@ interface Props {
   description?: string;
 }
 const { title, description = site.description } = Astro.props;
-const pageTitle = title ? `${title} — Siva Balan` : site.title;
+const pageTitle = title ? `Siva Balan | ${title}` : site.title;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
@@ -30,7 +30,7 @@ const nav = [
   ...(posts.length ? [{ href: '/writing', label: 'Writing' }] : []),
   { href: '/education', label: 'Education' },
   { href: '/achievements', label: 'Achievements' },
-  { href: '/about', label: 'About' },
+  { href: '/story', label: 'My Story' },
 ];
 const isCurrent = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
@@ -89,7 +89,7 @@ const year = new Date().getFullYear();
 
     <footer class="site-footer">
       <div class="wrap">
-        <div class="who">Siva Balan<span>Software engineer. MS Computer Science, NYU</span></div>
+        <div class="who">Siva Balan<span>Software engineer, MS Computer Science at NYU</span></div>
         <div class="footer-contact">
           <nav aria-label="Contact">
             <a class="u always" href={`mailto:${site.email}`}>{site.email}</a>

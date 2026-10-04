@@ -1,0 +1,46 @@
+---
+import Logo from './Logo.astro';
+import { education, certifications } from '../data/site';
+const { nyu, amrita } = education;
+const nyuCourses = nyu.groups.flatMap((g) => g.courses);
+---
+<div class="edu">
+  <article class="edu-item">
+    <p class="edu-when">{nyu.dates}</p>
+    <div class="edu-school">
+      <Logo name="nyu" alt="" />
+      <h3>{nyu.school}</h3>
+    </div>
+    <p class="edu-sub">Courant Institute of Mathematical Sciences</p>
+    <p class="edu-degree">{nyu.degree}. Expected {nyu.expected}. GPA {nyu.gpa}.</p>
+    <p class="edu-courses"><span class="muted">Coursework</span> {nyuCourses.join(', ')}</p>
+  </article>
+  <article class="edu-item">
+    <p class="edu-when">{amrita.dates}</p>
+    <div class="edu-school">
+      <Logo name="amrita" alt="" />
+      <h3>{amrita.school}</h3>
+    </div>
+    <p class="edu-sub">Amrita School of Engineering, Coimbatore</p>
+    <p class="edu-degree">{amrita.degree}</p>
+    <p class="edu-courses"><span class="muted">Coursework</span> {amrita.featured.join(', ')}, and more</p>
+  </article>
+  <p class="edu-certs">
+    <span class="muted">Certifications</span>
+    {certifications.completed.map((c) => c.name).join(', ')}
+  </p>
+</div>
+
+<style>
+  .edu-item { padding: 1.25rem 0; border-top: 1px solid var(--rule); }
+  .edu-item:first-child { border-top: 0; padding-top: 0.25rem; }
+  .edu-when { margin: 0 0 0.35rem; color: var(--muted); font-size: 0.875rem; }
+  .edu-school { display: flex; align-items: center; gap: 0.6rem; }
+  .edu-school :global(img) { width: 22px; height: 22px; object-fit: contain; opacity: 0.85; }
+  .edu-school h3 { font-size: 1.375rem; }
+  .edu-sub { margin: 0.1rem 0 0; color: var(--muted); font-size: 0.9375rem; }
+  .edu-degree { margin: 0.4rem 0 0; }
+  .edu-courses, .edu-certs { margin: 0.6rem 0 0; font-size: 0.9375rem; max-width: 40rem; }
+  .edu-courses .muted, .edu-certs .muted { display: block; font-size: 0.8125rem; }
+  .edu-certs { padding-top: 1rem; border-top: 1px solid var(--rule); margin-top: 0.5rem; }
+</style>

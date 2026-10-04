@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
-import { education } from '../data/site';
+import { education, certifications } from '../data/site';
 const { amrita, nyu } = education;
 const amritaCount = amrita.groups.reduce((n, g) => n + g.courses.length, 0);
 ---
@@ -35,6 +35,9 @@ const amritaCount = amrita.groups.reduce((n, g) => n + g.courses.length, 0);
               I started caring about why systems are designed the way they are, not just how to use
               them.
             </p>
+            <ul class="stop-hl">
+              {amrita.highlights.map((h) => <li><a class="u" href={h.href}>{h.text}</a></li>)}
+            </ul>
             <p class="featured">
               <span class="label">Core courses</span>
               {amrita.featured.join(', ')}
@@ -51,7 +54,7 @@ const amritaCount = amrita.groups.reduce((n, g) => n + g.courses.length, 0);
 
           <li class="stop between">
             <span class="dot" aria-hidden="true"></span>
-            <p class="when">2022 – 2025</p>
+            <p class="when">2022–2025</p>
             <p class="between-text">
               Three years building production backend systems at Ezee.ai, where the fundamentals turned
               into real engineering problems. <a class="u always" href="/experience">Experience <span class="arrow" aria-hidden="true">→</span></a>
@@ -65,12 +68,16 @@ const amritaCount = amrita.groups.reduce((n, g) => n + g.courses.length, 0);
               <Logo name="nyu" alt="" />
               <h2>{nyu.school}</h2>
             </div>
-            <p class="degree">{nyu.degree} <span class="gpa">GPA {nyu.gpa}</span></p>
+            <p class="degree">{nyu.degree}, expected {nyu.expected} <span class="gpa">GPA {nyu.gpa}</span></p>
             <p class="campus">{nyu.campus}</p>
             <p class="story-line">
               Back to the foundations, with the systems I'd worked on in mind: algorithms and
               languages, distributed data systems, machine learning, and how computation runs on GPUs.
             </p>
+            <ul class="stop-hl">
+              {nyu.highlights.map((h) => <li><a class="u" href={h.href}>{h.text}</a></li>)}
+            </ul>
+            <p class="label">Coursework</p>
             <dl class="groups">
               {nyu.groups.map((g) => (
                 <div><dt>{g.area}</dt><dd>{g.courses.join(', ')}</dd></div>
@@ -78,6 +85,22 @@ const amritaCount = amrita.groups.reduce((n, g) => n + g.courses.length, 0);
             </dl>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section class="section" id="certifications" aria-labelledby="cert-h">
+      <div class="section-label">
+        <h2 id="cert-h">Certifications</h2>
+      </div>
+      <div class="section-body">
+        <p class="label">Completed</p>
+        <ul class="certs">
+          {certifications.completed.map((c) => (
+            <li><span class="cert-name">{c.name}</span>{c.detail && <span class="cert-detail">{c.detail}</span>}</li>
+          ))}
+        </ul>
+        <p class="label next-label">Next on my list</p>
+        <p class="next-certs">{certifications.next.join(', ')}</p>
       </div>
     </section>
   </div>
@@ -116,6 +139,14 @@ const amritaCount = amrita.groups.reduce((n, g) => n + g.courses.length, 0);
   .all[open] summary::after { content: '−'; }
   .all[open] summary { margin-bottom: 0.9rem; }
 
+  .stop-hl { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 0.3rem; max-width: 40rem; font-size: 0.9375rem; }
+  .stop-hl li { padding-left: 1rem; position: relative; }
+  .stop-hl li::before { content: ''; position: absolute; left: 0.1rem; top: 0.62em; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+  .certs { list-style: none; margin: 0 0 1.75rem; padding: 0; max-width: 40rem; }
+  .certs li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1.5rem; padding: 0.75rem 0; border-top: 1px solid var(--rule); }
+  .certs li:last-child { border-bottom: 1px solid var(--rule); }
+  .cert-detail { color: var(--muted); font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .next-certs { margin: 0; color: var(--muted); font-size: 0.9375rem; }
   .between-text { margin: 0; max-width: 34rem; color: var(--muted); font-size: 0.9375rem; }
 
   @media (max-width: 46rem) {

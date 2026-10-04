@@ -31,7 +31,7 @@ The site will be live at https://sivabalan21.github.io
 | Project case studies | `src/content/projects/*.md` |
 | Home page intro and experience summary | `src/pages/index.astro` |
 | Full experience | `src/pages/experience.astro` |
-| About page (intro, principles block, story) | `src/pages/about.astro` |
+| My Story (intro, principles block, story) | `src/pages/story.astro` |
 | Education timeline | `src/pages/education.astro` |
 | Achievements | `src/pages/achievements.astro` |
 | Resume PDF | `public/resume.pdf` (replace the file to update) |
@@ -57,9 +57,9 @@ Add Markdown files to `src/content/writing/`. The Writing link appears in the na
 
 Add official logo files to `public/logos/` with these names (svg, png, or webp):
 
-- `ezee.svg` for Veefin / Ezee.ai
-- `nyu.svg` for NYU
-- `amrita.svg` for Amrita (optional)
+- `ezee.png` for Veefin / Ezee.ai
+- `nyu.png` for NYU
+- `amrita.png` for Amrita Vishwa Vidyapeetham
 
 They show at 28px next to the matching entries. Until a file exists, nothing renders, so there's never a broken image.
 
@@ -71,6 +71,6 @@ Fonts are self-hosted through Fontsource (Newsreader for headings, IBM Plex Sans
 
 One Markdown file per paper in `src/content/notes/`. Frontmatter: `title`, `paper`, `authors`, `venue`, `theme` (one of the four themes in `src/data/site.ts`), `summary`, `order`. Sections use `##` headings, which also build the "On this page" index.
 
-## Unfinished projects
+## Tool icons
 
-`src/content/projects/ransomware.md` and `elective-management-system.md` are `draft: true` and don't appear anywhere on the site. Fill in the fields and set `draft: false` to publish them as projects 05 and 06.
+Tool icons live in `src/data/toolIcons.ts` (Simple Icons, Devicon, Lucide), rendered in the text color so they match the theme.

@@ -2,7 +2,7 @@
 import { scopes } from '../data/site';
 interface Props { compact?: boolean }
 const { compact = false } = Astro.props;
-const list = compact ? scopes.slice(0, 2) : scopes;
+const list = compact ? scopes.slice(0, 1) : scopes;
 ---
 <div class="scopes">
   {list.map((s) => (
